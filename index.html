@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TEAMPCP — Threat Intelligence Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <div class="nav__brand"><span class="nav__dot"></span>TEAMPCP</div>
+    <ul class="nav__links">
+      <li><a href="#background">Profile</a></li>
+      <li><a href="#graph">Chain</a></li>
+      <li><a href="#campaigns">Campaigns</a></li>
+      <li><a href="#infra">Infra</a></li>
+      <li><a href="#iocs">IOCs</a></li>
+      <li><a href="#mitre">ATT&amp;CK</a></li>
+      <li><a class="nav-lab-link" href="assets/game.html" target="_blank">▶ Lab</a></li>
+    </ul>
+    <div class="nav__socials">
+      <a class="soc-btn soc-btn--x" href="https://x.com/pcpcats" target="_blank">𝕏 @pcpcats</a>
+      <a class="soc-btn soc-btn--t1" href="https://t.me/teampcp" target="_blank">✈ @teampcp</a>
+      <a class="soc-btn soc-btn--t2" href="https://t.me/Persy_PCP" target="_blank">✈ @Persy_PCP</a>
+      <div class="nav__badge">● ACTIVE</div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__speedlines"></div>
+  <div class="hero__grid"></div>
+  <div class="hero__halftone"></div>
+  <div class="hero__inner">
+    <div class="hero__text">
+      <div class="hero__chapter reveal">
+        <span class="chapter-label">THREAT FILE</span>
+        <span class="chapter-num">// EYES ONLY // ACTIVE THREAT</span>
+      </div>
+      <h1 class="hero__title reveal-up">
+        <span class="team">TEAM</span><span class="pcp">PCP</span>
+      </h1>
+      <p class="hero__sub reveal-up">
+        The threat actor <strong>systematically dismantling open-source trust.</strong><br>
+        <em>Eight campaigns. Five ecosystems. One self-spreading worm.</em>
+      </p>
+      <div class="hero__aliases reveal-up">
+        <span class="alias">PCPcat</span>
+        <span class="alias">DeadCatx3</span>
+        <span class="alias">PersyPCP</span>
+        <span class="alias">ShellForce</span>
+        <span class="alias">CipherForce</span>
+        <span class="alias">MegaGame10418</span>
+      </div>
+      <div class="hero__socials reveal">
+        <a class="social-link social-link--x" href="https://x.com/pcpcats" target="_blank">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          @pcpcats
+        </a>
+        <a class="social-link social-link--t1" href="https://t.me/teampcp" target="_blank">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          @teampcp — 1,180+ subs
+        </a>
+        <a class="social-link social-link--t2" href="https://t.me/Persy_PCP" target="_blank">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          @Persy_PCP
+        </a>
+      </div>
+      <div class="hero__stats reveal">
+        <div class="stat"><span class="stat__n" data-target="500000">0</span><span class="stat__u">+</span><div class="stat__l">Infected Hosts</div></div>
+        <div class="stat"><span class="stat__n" data-target="300">0</span><span class="stat__u">GB</span><div class="stat__l">Data Stolen</div></div>
+        <div class="stat"><span class="stat__n" data-target="8">0</span><span class="stat__u"></span><div class="stat__l">Campaigns</div></div>
+        <div class="stat"><span class="stat__n" data-target="66">0</span><span class="stat__u">+</span><div class="stat__l">npm Packages</div></div>
+        <div class="stat"><span class="stat__n" data-target="1180">0</span><span class="stat__u">+</span><div class="stat__l">Telegram Subs</div></div>
+      </div>
+      <div class="hero__lab reveal">
+        <a class="hero__lab-btn" href="assets/game.html" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          CHAIN REACTION — Interactive Lab
+        </a>
+        <span class="hero__lab-meta">3 acts · 3 bosses · real forensic terminals</span>
+      </div>
+    </div>
+    <div class="hero__img-wrap reveal-right">
+      <img class="hero__img" src="assets/hero.png" alt="TeamPCP" />
+    </div>
+  </div>
+</header>
+
+<!-- PROFILE -->
+<section class="section" id="background">
+  <div class="container">
+    <div class="section__hd reveal">
+      <div class="section-chapter">ISSUE #1</div>
+      <h2>Origin &amp; Profile</h2>
+    </div>
+
+    <div class="comic-row reveal">
+      <div class="panel panel--red">
+        <div class="panel__caption">ACTIVE SINCE SEP 2025</div>
+        <h3>The Origin</h3>
+        <p>Emerged targeting exposed cloud APIs — Docker, Kubernetes, Ray, Redis. <strong>December 2025 pivot:</strong> mass-exploits React2Shell (CVE-2025-55182, CVSS 10.0), a critical RCE in React Server Components. Key operative <strong>MegaGame10418</strong> exploited a PwnRequest vulnerability in Trivy's CI on Feb 27, 2026 — stealing the PAT that seeded the entire supply chain campaign.</p>
+        <div class="tags"><span class="tag red">Financially Motivated</span><span class="tag purple">Supply Chain</span></div>
+      </div>
+      <div class="panel panel--purple">
+        <div class="panel__caption">SIGNATURE MOVE</div>
+        <h3>Cascade Compromise</h3>
+        <p>Compromise one trusted <strong>security scanner</strong> → harvest CI/CD tokens from thousands of pipelines → infect the downstream packages those developers maintain. Self-attribution in payload: <code>"TeamPCP Cloud stealer"</code>. Anti-attribution: exits immediately if Russian locale detected.</p>
+        <div class="tags"><span class="tag green">ICP Blockchain C2</span><span class="tag cyan">Self-Spreading Worm</span></div>
+      </div>
+      <div class="panel panel--cyan">
+        <div class="panel__caption">CRIMINAL NETWORK</div>
+        <h3>The Alliance</h3>
+        <p>Partnerships with <strong>CipherForce</strong> (proprietary ransomware), <strong>Vect</strong> ransomware group, and <strong>LAPSUS$</strong> extortion network. Functions as an access generation engine feeding multiple ransomware ecosystems simultaneously. Telegram @teampcp grew 700 → 1,180+ during the March 2026 campaign wave.</p>
+        <div class="tags"><span class="tag red">Vect Ransomware</span><span class="tag amber">CipherForce</span><span class="tag purple">LAPSUS$</span></div>
+      </div>
+    </div>
+
+    <div class="bubble bubble--red reveal">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div>
+          <div class="bubble__label">⚡ REACT2SHELL — CVE-2025-55182 — CVSS 10.0</div>
+          <p>Critical unauthenticated RCE in React Server Components + Next.js. Single crafted POST triggers server-side deserialization → arbitrary Node.js execution. Port 666 used in exploit operations. TeamPCP mass-exploited in December 2025 to build criminal cloud infrastructure across Docker, Kubernetes, Ray, Redis globally — the foundation for the 2026 supply chain series.</p>
+        </div>
+        <a class="bubble__src" href="https://www.rescana.com/post/teampcp-worm-targets-docker-kubernetes-ray-and-redis-via-react2shell-cve-2025-55182-to-build-crim" target="_blank">rescana.com →</a>
+      </div>
+    </div>
+    <div class="bubble bubble--green reveal">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div>
+          <div class="bubble__label">🐱 nsa[.]cat + "TeamPCP Cloud stealer"</div>
+          <p>Attacker VPS <code>nsa[.]cat</code> identified in campaign infrastructure (ramimac.me). Self-attribution string <code>"TeamPCP Cloud stealer"</code> hardcoded in trivy-action payloads. Fallback: creates <code>tpcp-docs</code> repository in victim GitHub orgs as secondary exfil channel (Wiz). The cat-mask identity is consistent across artwork, social channels, and payload naming.</p>
+        </div>
+        <a class="bubble__src" href="https://ramimac.me/teampcp/" target="_blank">ramimac.me →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATTACK GRAPH -->
+<section class="section section--dark" id="graph">
+  <div class="container">
+    <div class="section__hd reveal">
+      <div class="section-chapter">ISSUE #2</div>
+      <h2>The Attack Chain</h2>
+      <p class="section__sub">One misconfigured GitHub Action. Seven campaigns. Five ecosystems. One blockchain that can't be shut down.</p>
+    </div>
+    <div class="graph-wrap reveal">
+      <canvas id="attackCanvas" width="1100" height="520"></canvas>
+    </div>
+    <div class="legend reveal">
+      <span class="leg-item"><span class="leg-dot" style="background:#ff1a3c"></span>Entry Point</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#ffd60a"></span>Credential Harvest</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#b44dff"></span>Worm Spread</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#4361ee"></span>Payload Deployed</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#00ff6e"></span>C2 Infrastructure</span>
+      <span class="leg-item"><span class="leg-dot" style="background:#38c8ff"></span>Victim Machine</span>
+    </div>
+  </div>
+</section>
+
+<!-- CAMPAIGNS — COMIC GRID -->
+<section class="section" id="campaigns">
+  <div class="container">
+    <div class="section__hd reveal">
+      <div class="section-chapter">ISSUE #3</div>
+      <h2>Eight Campaigns</h2>
+    </div>
+    <div class="comic-page reveal">
+
+      <!-- #0 Full-width: React2Shell (origin) -->
+      <div class="cp-panel cp-panel--full">
+        <div class="cp-panel__strip" style="background:linear-gradient(90deg,#ff1a3c,#b44dff,transparent)"></div>
+        <div class="cp-panel__issue">00</div>
+        <div class="cp-panel__inner">
+          <span class="cp-panel__eco eco--js" style="float:right">React / Node.js</span>
+          <div class="cp-panel__date" style="background:var(--red);color:#fff">PRE-CAMPAIGN · DEC 2025</div>
+          <div class="cp-panel__title">React2Shell — The Origin</div>
+          <div class="cp-panel__body">CVSS 10.0 critical unauthenticated RCE in React Server Components + Next.js (CVE-2025-55182 + CVE-2025-29927). Single crafted POST triggers server-side deserialization → arbitrary Node.js code execution. TeamPCP mass-exploited at scale against Docker, Kubernetes, Ray, Redis deployments globally. <strong>Port 666</strong> used in exploitation operations. This campaign built the criminal cloud infrastructure deployed in the 2026 supply chain series. Simultaneously, operative <strong>MegaGame10418</strong> exploited a PwnRequest vulnerability in Trivy's CI on February 27, 2026, exfiltrating Aqua Security's Personal Access Token — the key that unlocked every campaign that followed.</div>
+          <div class="cp-panel__iocs"><span>CVE-2025-55182</span><span>CVE-2025-29927</span><span>MegaGame10418</span><span>Port 666</span></div>
+          <div class="cp-panel__credit">Unit42 · Rescana · react2shell.com · ramimac.me</div>
+        </div>
+      </div>
+
+      <!-- #1 Wide: Trivy -->
+      <div class="cp-panel cp-panel--wide">
+        <div class="cp-panel__strip" style="background:linear-gradient(90deg,#ff1a3c,#ff4060,transparent)"></div>
+        <div class="cp-panel__issue">01</div>
+        <div class="cp-panel__inner">
+          <span class="cp-panel__eco eco--gh" style="float:right">GitHub Actions</span>
+          <div class="cp-panel__date" style="background:var(--red);color:#fff">MARCH 19, 2026 · 17:43 UTC</div>
+          <div class="cp-panel__title">Trivy Scanner Hijacked</div>
+          <div class="cp-panel__body">PAT stolen via <code>pull_request_target</code> misconfiguration. Force-push over <strong>75/76</strong> trivy-action tags + 7 setup-trivy tags. Every CI/CD pipeline running Trivy that day had secrets harvested. Memory scraping via <code>/proc/&lt;pid&gt;/mem</code> bypasses GitHub secret masking. C2 typosquat: <code>scan.aquasecurtiy[.]org</code>. Fallback: <code>tpcp-docs</code> repo created in victim orgs. Trivy v0.69.5–v0.69.6 pushed to Docker Hub. CVE-2026-33634 (CVSS 9.4).</div>
+          <div class="cp-panel__iocs"><span>scan.aquasecurtiy[.]org</span><span>45.148.10.212</span><span>CVE-2026-33634</span><span>tpcp.tar.gz</span><span>nsa[.]cat</span></div>
+          <div class="cp-panel__credit">Mend.io · Wiz · Unit42 · ramimac.me</div>
+        </div>
+      </div>
+
+      <!-- #2 Single: CanisterWorm -->
+      <div class="cp-panel">
+        <div class="cp-panel__strip" style="background:linear-gradient(90deg,#b44dff,#d480ff,transparent)"></div>
+        <div class="cp-panel__issue">02</div>
+        <div class="cp-panel__inner">
+          <span class="cp-panel__eco eco--npm" style="float:right">npm</span>
+          <div class="cp-panel__date" style="background:var(--purple);color:#fff">MARCH 20 · 20:45 UTC</div>
+          <div class="cp-panel__title">CanisterWorm</div>
+          <div class="cp-panel__body"><strong>First npm worm with ICP blockchain C2.</strong> Canister <code>tdtqy-oyaaa-aaaae-af2dq-cai</code> serves rotating payloads — no takedown point. Kill-switch returns YouTube URL. 66+ packages infected: @emilgroup (28), @opengov (16), @teale.io, @airtm, @pypestream. April 21 second wave: @automagik/genie, pgserve, @fairwords/websocket — second canister ID. <code>pgmon</code> systemd backdoor disguised as PostgreSQL monitor; 5-min sandbox delay, 50-min C2 poll.</div>
+          <div class="cp-panel__iocs"><span>tdtqy-oyaaa-aaaae-af2dq-cai</span><span>pgmon.service</span></div>
+          <div class="cp-panel__credit">Mend.io · <a href="https://www.aikido.dev/blog/teampcp-deploys-worm-npm-trivy-compromise" target="_blank">Aikido/Charlie Eriksen</a> · The Register</div>
+        </div>
+      </div>
+
+      <!-- #3 Single: LiteLLM -->
+      <div class="cp-panel">
+        <div class="cp-panel__strip" style="background:linear-gradient(90deg,#4361ee,#6480ff,transparent)"></div>
+        <div class="cp-panel__issue">03</div>
+        <div class="cp-panel__inner">
+          <span class="cp-panel__eco eco--py" style="float:right">PyPI</span>
+          <div class="cp-panel__date" style="background:#4361ee;color:#fff">MARCH 24</div>
+          <div class="cp-panel__title">LiteLLM Poisoned</div>
+          <div class="cp-panel__body">Trivy-poisoned CI handed TeamPCP <code>PYPI_PUBLISH_PASSWORD</code> for <code>krrishdholakia</code>. v1.82.7 + v1.82.8 (~95M monthly downloads). v1.82.8 escalates to <strong>.pth file</strong> in site-packages — fires on every Python startup even after uninstall. AES-256-CBC + RSA-2048. Kubernetes cluster escape via privileged pod (<code>hostPID:true</code>). Also: KICS (35 tags), Checkmarx AST v2.3.28.</div>
+          <div class="cp-panel__iocs"><span>models.litellm.cloud</span><span>checkmarx.zone</span><span>litellm_init.pth</span></div>
+          <div class="cp-panel__credit">Mend.io · ReversingLabs · Datadog</div>
+        </div>
+      </div>
+
+      <!-- #4 Wide: Telnyx -->
+      <div class="cp-panel cp-panel--wide">
+        <div class="cp-panel__strip" style="background:linear-gradient(90deg,#38c8ff,#60d8ff,transparent)"></div>
+        <div class="cp-panel__issue">04</div>
+        <div class="cp-panel__inner">
+          <span class="cp-panel__eco eco--py" style="float:right">PyPI</span>
+          <div class="cp-panel__date" style="background:var(--cyan);color:#000">MARCH 27</div>
+          <div class="cp-panel__title">Telnyx — WAV Steganography</div>
+          <div class="cp-panel__body">telnyx v4.87.1 + v4.87.2. Novel delivery: payload XOR-encoded inside fake <code>.wav</code> audio files fetched live at runtime — <code>ringtone.wav</code> (Linux/macOS), <code>hangup.wav</code> (Windows). Same C2 IP as LiteLLM: <code>83.142.209.203:8080</code>, identical RSA key, same exfil archive name. Windows: <code>msbuild.exe</code> dropped into Startup folder, <code>CREATE_NO_WINDOW</code>, hidden lock file — no admin required. Linux: detached subprocess with <code>start_new_session=True</code>. Same wave: Checkmarx VS Code extensions (<code>checkmarx.ast-results</code> v2.53) published to Open VSX (ReversingLabs).</div>
+          <div class="cp-panel__iocs"><span>83.142.209.203:8080</span><span>ringtone.wav</span><span>hangup.wav</span><span>msbuild.exe (Startup)</span></div>
+          <div class="cp-panel__credit">Mend.io · ReversingLabs · Akamai</div>
+        </div>
+      </div>
+
+      <!-- #5 Full-width: Xinference (the denial) -->
+      <div class="cp-panel cp-panel--full">
+        <div class="cp-panel__strip" style="background:linear-gradient(90deg,#00ff6e,#40ffaa,var(--border))"></div>
+        <div class="cp-panel__issue">05</div>
+        <div class="cp-panel__inner">
+          <span class="cp-panel__eco eco--py" style="float:right">PyPI</span>
+          <div class="cp-panel__date" style="background:var(--green);color:#000">APRIL 22, 2026</div>
+          <div class="cp-panel__title">Xinference — &quot;That Wasn't Us&quot;</div>
+          <div class="cp-panel__body">xinference 2.6.0–2.6.2 targeting AI inference infrastructure. Fire-and-forget: no persistence, no encryption — data gzipped as <code>love.tar.gz</code>, POSTed raw with custom header <code>X-QT-SR: 14</code> to <code>whereisitat.lucyatemysuperbox.space</code>. Full AWS Sig4 implementation queries Secrets Manager + SSM Parameter Store directly. Exhaustive crypto wallet sweep including Solana validator keypairs. First decoded line of payload: <code># hacked by teampcp</code>. <strong>Plot twist: @pcpcats publicly denied responsibility on Twitter</strong> — "if you're this copycat using our team name, DM me." First time a TeamPCP-attributed payload was publicly disputed by the group itself. Possible copycat, false flag, or deniability operation. KICS Docker images also compromised the same day (Socket.dev).</div>
+          <div class="cp-panel__iocs"><span>whereisitat.lucyatemysuperbox.space</span><span>X-QT-SR: 14</span><span>love.tar.gz</span><span># hacked by teampcp</span><span>@pcpcats denial</span></div>
+          <div class="cp-panel__credit">Mend.io · GitGuardian · StepSecurity</div>
+        </div>
+      </div>
+
+      <!-- #6 Wide: Bitwarden -->
+      <div class="cp-panel cp-panel--wide">
+        <div class="cp-panel__strip" style="background:linear-gradient(90deg,#ff1a3c,#b44dff,transparent)"></div>
+        <div class="cp-panel__issue">06</div>
+        <div class="cp-panel__inner">
+          <span class="cp-panel__eco eco--npm" style="float:right">npm</span>
+          <div class="cp-panel__date" style="background:var(--red);color:#fff">APRIL 23, 2026</div>
+          <div class="cp-panel__title">@bitwarden/cli — The CI Chain</div>
+          <div class="cp-panel__body">Chain: KICS Docker → Bitwarden <code>pull_request_target</code> (<code>id-token: write</code>) → stolen GitHub OIDC → unsigned commit impersonating <code>iinuwa@bitwarden.com</code> → double-base64 npm token leaked in CI logs → <code>@bitwarden/cli@2026.4.0</code> published 4 minutes later. C2 typosquat: <code>audit.checkmarx.cx</code> (named after the entry tool, vs real checkmarx.com). Test account <code>helloworm00@proton.me</code> validated <code>beautifulcastle</code> GitHub dead-drop channel 2 days prior. 9.7MB obfuscator.io payload: 43,436-entry string table, PBKDF2 S-box cipher for 58 sensitive strings, 6 gzip blobs. New capability: <strong>AI assistant poisoning</strong> writes invisible payload to shell configs that surface in AI context windows.</div>
+          <div class="cp-panel__iocs"><span>audit.checkmarx.cx</span><span>helloworm00@proton.me</span><span>beautifulcastle C2</span><span>api.cloud-aws.adc-e.uk</span></div>
+          <div class="cp-panel__credit">Mend.io · JFrog · Socket.dev</div>
+        </div>
+      </div>
+
+      <!-- #7 Wide: SAP cap-js / Shai-Hulud -->
+      <div class="cp-panel cp-panel--full">
+        <div class="cp-panel__strip" style="background:linear-gradient(90deg,#ffd60a,#ff9800,#b44dff,transparent)"></div>
+        <div class="cp-panel__issue">07</div>
+        <div class="cp-panel__inner">
+          <span class="cp-panel__eco eco--npm" style="float:right">npm</span>
+          <div class="cp-panel__date" style="background:var(--amber);color:#000">APRIL 29, 2026 · 11:23 UTC</div>
+          <div class="cp-panel__title">Shai-Hulud — SAP cap-js via Claude Code</div>
+          <div class="cp-panel__body">Most novel vector yet: malware detected Claude Code's GitHub integration running on an infected SAP developer machine and hijacked it — committing as <code>claude@users.noreply.github.com</code> with no token theft required. 11:23 UTC malicious commit <code>0a3dd44d</code>. Modified <code>release-please.yml</code> to extract short-lived npm OIDC tokens — stripped SLSA provenance. By 11:25 UTC four packages published: <code>@cap-js/sqlite@2.2.2</code>, <code>@cap-js/postgres@2.2.2</code>, <code>@cap-js/db-service@2.10.1</code>, <code>mbt@1.2.48</code>. 12:12 UTC: persistence deployed via <code>.claude/settings.json</code> SessionStart hook re-running <code>.vscode/setup.mjs</code> dropper on every future IDE launch. Payload: <code>preinstall</code> hook → <code>setup.mjs</code> dropper; obfuscation upgraded to 49,093-entry string table + PBKDF2/SHA256 S-box cipher + 6 gzip blobs; 39 target paths including <code>~/.claude.json</code> and <code>~/.kiro/settings/mcp.json</code>. Python memory dumper targets <code>Runner.Worker</code> process in CI. Self-propagation: enumerates npm tokens → injects into accessible packages → republishes as <code>package-updated.tgz</code>. Repo descriptions read: <em>"A Mini Shai-Hulud has Appeared"</em> (Dune universe naming). SAP emergency response 13:33 UTC; clean releases by 13:45.</div>
+          <div class="cp-panel__iocs"><span>claude@github</span><span>.claude/settings.json</span><span>No SLSA provenance</span><span>setup.mjs</span><span>api.cloud-aws.adc-e.uk</span><span>package-updated.tgz</span></div>
+          <div class="cp-panel__credit"><a href="https://www.mend.io/blog/shai-hulud-sap-cap-supply-chain-attack-claude-code/" target="_blank">Mend.io</a> · BleepingComputer · The Hacker News</div>
+        </div>
+      </div>
+
+    </div><!-- /comic-page -->
+
+  </div>
+</section>
+
+<!-- INFRASTRUCTURE -->
+<section class="section section--dark" id="infra">
+  <div class="container">
+    <div class="section__hd reveal"><div class="section-chapter">ISSUE #4</div><h2>Infrastructure &amp; Arsenal</h2></div>
+    <div class="infra-grid">
+      <div class="panel reveal">
+        <div class="panel__caption">C2 ARCHITECTURE</div>
+        <h3>Command &amp; Control</h3>
+        <ul class="infra-list">
+          <li><code>tdtqy-oyaaa-aaaae-af2dq-cai.raw.icp0.io</code> — ICP blockchain canister. No takedown. Methods: get_latest_link, update_link.</li>
+          <li><code>checkmarx[.]zone</code> — LiteLLM backdoor polling (~50 min interval)</li>
+          <li><code>83.142.209.203:8080</code> — LiteLLM + Telnyx exfil server</li>
+          <li><code>scan.aquasecurtiy[.]org</code> → 45.148.10.212 — Trivy C2 typosquat</li>
+          <li><code>audit.checkmarx[.]cx</code> — Bitwarden C2 typosquat</li>
+          <li><code>whereisitat.lucyatemysuperbox[.]space</code> — Xinference exfil</li>
+          <li><code>api.cloud-aws.adc-e[.]uk</code> — Fake AWS SDK partition</li>
+          <li><code>nsa[.]cat</code> — Attacker VPS (ramimac.me)</li>
+          <li>Cloudflare Tunnels — GitHub Actions exfil (Unit42)</li>
+          <li><code>tpcp-docs</code> — Fallback repo in victim GitHub orgs</li>
+        </ul>
+      </div>
+      <div class="panel reveal">
+        <div class="panel__caption">PERSISTENCE</div>
+        <h3>Foothold Mechanisms</h3>
+        <ul class="infra-list">
+          <li><code>~/.local/share/pgmon/service.py</code> + systemd — CanisterWorm. 5-min delay, 50-min poll.</li>
+          <li><code>litellm_init.pth</code> in site-packages — fires on Python start after uninstall</li>
+          <li><code>~/.config/sysmon/sysmon.py</code> + systemd — LiteLLM polling backdoor</li>
+          <li><code>%APPDATA%\...\Startup\msbuild.exe</code> — Telnyx Windows, no admin</li>
+          <li><code>.claude/settings.json</code> SessionStart hook — re-infects on IDE open</li>
+          <li><code>.vscode/setup.mjs</code> — dropper paired with Claude Code hook</li>
+        </ul>
+      </div>
+      <div class="panel reveal">
+        <div class="panel__caption">CUSTOM ARSENAL</div>
+        <h3>Toolset</h3>
+        <ul class="infra-list">
+          <li><strong>Bun v1.3.13</strong> — from GitHub CDN, keeps dropper clean</li>
+          <li><strong>obfuscator.io</strong> — 43K–49K string tables, PBKDF2 S-box, gzip blobs</li>
+          <li><strong>WAV steganography</strong> — XOR-encoded payload in audio frames</li>
+          <li><strong>TruffleHog</strong> — post-exfil credential validation (Wiz)</li>
+          <li><strong>Nord Stream tool</strong> — branch: <code>dev_remote_ea5Eu/test/v1</code></li>
+          <li><strong>Mullvad VPN</strong> — 138.199.15.172, 154.47.29.12, 170.62.100.245</li>
+          <li><strong>Russian locale exit</strong> — LANG/LC_ALL anti-attribution geofencing</li>
+          <li><strong>AI poisoning</strong> — shell config writes that land in AI context</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IOCs -->
+<section class="section" id="iocs">
+  <div class="container">
+    <div class="section__hd reveal"><div class="section-chapter">ISSUE #5</div><h2>Indicators of Compromise</h2></div>
+    <div class="ioc-nav reveal">
+      <button class="itab active" data-tab="domains">Domains</button>
+      <button class="itab" data-tab="ips">IPs</button>
+      <button class="itab" data-tab="packages">Packages</button>
+      <button class="itab" data-tab="files">Files</button>
+      <button class="itab" data-tab="certs">Certs</button>
+      <button class="itab" data-tab="accounts">Accounts</button>
+    </div>
+    <div class="ipane active" id="tab-domains">
+      <table class="itable"><thead><tr><th>Domain / URL</th><th>Purpose</th><th>Campaign</th></tr></thead><tbody>
+        <tr><td><code>scan.aquasecurtiy[.]org</code></td><td>Trivy C2 (typosquat aquasecurity)</td><td>Trivy</td></tr>
+        <tr><td><code>checkmarx[.]zone</code></td><td>KICS/LiteLLM C2 polling + VSX exfil</td><td>LiteLLM</td></tr>
+        <tr><td><code>models.litellm[.]cloud</code></td><td>LiteLLM primary exfil</td><td>LiteLLM</td></tr>
+        <tr><td><code>audit.checkmarx[.]cx</code></td><td>Bitwarden C2 (typosquat checkmarx.com)</td><td>Bitwarden</td></tr>
+        <tr><td><code>whereisitat.lucyatemysuperbox[.]space</code></td><td>Xinference exfil</td><td>Xinference</td></tr>
+        <tr><td><code>api.cloud-aws.adc-e[.]uk</code></td><td>Fake AWS SDK partition redirect</td><td>Bitwarden / cap-js</td></tr>
+        <tr><td><code>tdtqy-oyaaa-aaaae-af2dq-cai.raw.icp0[.]io</code></td><td>ICP canister C2 — no takedown</td><td>CanisterWorm</td></tr>
+        <tr><td><code>nsa[.]cat</code></td><td>Attacker VPS</td><td>Campaign infra</td></tr>
+      </tbody></table>
+      <button class="copybtn" onclick="copyIOC('domains')">Copy All Domains</button>
+    </div>
+    <div class="ipane" id="tab-ips">
+      <table class="itable"><thead><tr><th>IP</th><th>Notes</th><th>Source</th></tr></thead><tbody>
+        <tr><td><code>45.148.10.212</code></td><td>TECHOFF SRV LIMITED, Amsterdam — Trivy C2</td><td>Wiz</td></tr>
+        <tr><td><code>83.142.209.203</code></td><td>LiteLLM + Telnyx exfil (:8080)</td><td>Mend.io</td></tr>
+        <tr><td><code>83.142.209.11</code></td><td>checkmarx[.]zone resolution</td><td>Sysdig</td></tr>
+        <tr><td><code>23.142.184.129</code></td><td>TeamPCP infrastructure</td><td>Unit42</td></tr>
+        <tr><td><code>63.251.162.11</code></td><td>TeamPCP infrastructure</td><td>Unit42</td></tr>
+        <tr><td><code>195.5.171.242</code></td><td>TeamPCP infrastructure</td><td>Unit42</td></tr>
+        <tr><td><code>138.199.15.172</code></td><td>Mullvad VPN (Datacamp Ltd)</td><td>Wiz</td></tr>
+        <tr><td><code>154.47.29.12</code></td><td>Mullvad VPN exit</td><td>Wiz</td></tr>
+        <tr><td><code>170.62.100.245</code></td><td>Mullvad VPN exit</td><td>Wiz</td></tr>
+        <tr><td><code>193.32.126.157</code></td><td>Mullvad VPN exit</td><td>Wiz</td></tr>
+        <tr><td><code>105.245.181.120</code></td><td>Vodacom callback proxy</td><td>Wiz</td></tr>
+      </tbody></table>
+      <button class="copybtn" onclick="copyIOC('ips')">Copy All IPs</button>
+    </div>
+    <div class="ipane" id="tab-packages">
+      <table class="itable"><thead><tr><th>Package</th><th>Version(s)</th><th>Ecosystem</th></tr></thead><tbody>
+        <tr><td><code>aquasecurity/trivy-action</code></td><td>75/76 tags hijacked</td><td>GitHub Actions</td></tr>
+        <tr><td><code>aquasecurity/setup-trivy</code></td><td>7 tags hijacked</td><td>GitHub Actions</td></tr>
+        <tr><td><code>checkmarx/kics-github-action</code></td><td>All 35 tags</td><td>GitHub Actions</td></tr>
+        <tr><td><code>checkmarx/ast-github-action</code></td><td>v2.3.28</td><td>GitHub Actions</td></tr>
+        <tr><td><code>litellm</code></td><td>1.82.7, 1.82.8</td><td>PyPI</td></tr>
+        <tr><td><code>telnyx</code></td><td>4.87.1, 4.87.2</td><td>PyPI</td></tr>
+        <tr><td><code>xinference</code></td><td>2.6.0, 2.6.1, 2.6.2</td><td>PyPI</td></tr>
+        <tr><td><code>@bitwarden/cli</code></td><td>2026.4.0</td><td>npm</td></tr>
+        <tr><td><code>@cap-js/sqlite</code></td><td>2.2.2</td><td>npm</td></tr>
+        <tr><td><code>@cap-js/postgres</code></td><td>2.2.2</td><td>npm</td></tr>
+        <tr><td><code>@cap-js/db-service</code></td><td>2.10.1</td><td>npm</td></tr>
+        <tr><td><code>mbt</code></td><td>1.2.48</td><td>npm</td></tr>
+        <tr><td><code>checkmarx.ast-results</code></td><td>v2.53</td><td>Open VSX</td></tr>
+        <tr><td><code>checkmarx.cx-dev-assist</code></td><td>v1.7.0</td><td>Open VSX</td></tr>
+        <tr><td><code>@emilgroup/*</code> (28 pkgs)</td><td>Worm-infected</td><td>npm</td></tr>
+        <tr><td><code>@opengov/*</code> (16 pkgs)</td><td>Worm-infected</td><td>npm</td></tr>
+        <tr><td><code>@automagik/genie</code></td><td>4.260421.33–39</td><td>npm (Apr 21)</td></tr>
+        <tr><td><code>pgserve</code></td><td>1.1.11–1.1.13</td><td>npm (Apr 21)</td></tr>
+        <tr><td><code>@fairwords/websocket</code></td><td>1.0.38, 1.0.39</td><td>npm (Apr 21)</td></tr>
+      </tbody></table>
+    </div>
+    <div class="ipane" id="tab-files">
+      <table class="itable"><thead><tr><th>Path / Artifact</th><th>Description</th></tr></thead><tbody>
+        <tr><td><code>~/.local/share/pgmon/service.py</code></td><td>CanisterWorm C2 backdoor (pgmon masquerade)</td></tr>
+        <tr><td><code>~/.config/systemd/user/pgmon.service</code></td><td>CanisterWorm systemd persistence</td></tr>
+        <tr><td><code>litellm_init.pth</code> (site-packages)</td><td>Fires on every Python start after uninstall</td></tr>
+        <tr><td><code>~/.config/sysmon/sysmon.py</code></td><td>LiteLLM polling backdoor</td></tr>
+        <tr><td><code>/tmp/pglog</code></td><td>Payload execute target (both backdoors)</td></tr>
+        <tr><td><code>/tmp/.pg_state</code></td><td>C2 state tracking file</td></tr>
+        <tr><td><code>tpcp.tar.gz</code></td><td>Self-referential exfil archive</td></tr>
+        <tr><td><code>love.tar.gz</code></td><td>Xinference exfil archive</td></tr>
+        <tr><td><code>%APPDATA%\...\Startup\msbuild.exe</code></td><td>Telnyx Windows startup, hidden lock</td></tr>
+        <tr><td><code>.claude/settings.json</code></td><td>SAP cap-js SessionStart hook re-fires on IDE open</td></tr>
+        <tr><td><code>.vscode/setup.mjs</code></td><td>Shai-Hulud dropper copy paired with Claude Code hook</td></tr>
+        <tr><td><code>package-updated.tgz</code></td><td>Worm self-republish artifact (SAP wave)</td></tr>
+        <tr><td><code>tmp.987654321.lock</code></td><td>Anti-double-execution lock (Shai-Hulud)</td></tr>
+        <tr><td><code>config.mjs</code></td><td>Bun runtime download logic (Shai-Hulud)</td></tr>
+        <tr><td><code>tpcp-docs</code> (GitHub repo)</td><td>Fallback exfil in victim GitHub org</td></tr>
+      </tbody></table>
+    </div>
+    <div class="ipane" id="tab-certs">
+      <table class="itable"><thead><tr><th>SHA256</th><th>Notes</th></tr></thead><tbody>
+        <tr><td><code>30015DD1E2CF4DBD49FFF9DDEF2AD4622DA2E60E5C0B6228595325532E948F14</code></td><td>Self-signed TLS cert (Telnyx wave)</td></tr>
+        <tr><td><code>41C4F2F37C0B257D1E20FE167F2098DA9D2E0A939B09ED3F63BC4FE010F8365C</code></td><td>Self-signed TLS cert (Telnyx wave)</td></tr>
+        <tr><td><code>D8CAF4581C9F0000C7568D78FB7D2E595AB36134E2346297D78615942CBBD727</code></td><td>Self-signed TLS cert (Telnyx wave)</td></tr>
+      </tbody></table>
+    </div>
+    <div class="ipane" id="tab-accounts">
+      <table class="itable"><thead><tr><th>Account / Identity</th><th>Details</th></tr></thead><tbody>
+        <tr><td><code>@pcpcats</code></td><td>Twitter/X — posted xinference denial; monitor for campaign announcements</td></tr>
+        <tr><td><code>@teampcp</code> (Telegram)</td><td>Primary channel — grew 700 → 1,180+ during March 2026 wave</td></tr>
+        <tr><td><code>@Persy_PCP</code> (Telegram)</td><td>Earlier/secondary Telegram identity (Flare.io, ramimac.me)</td></tr>
+        <tr><td><code>MegaGame10418</code></td><td>Operative who exploited Feb 27 PwnRequest to steal Aqua PAT</td></tr>
+        <tr><td><code>helloworm00@proton.me</code></td><td>GitHub test account — validated beautifulcastle C2 channel Apr 20</td></tr>
+        <tr><td><code>claude@users.noreply.github.com</code></td><td>Claude Code identity hijacked to commit to SAP cap-js</td></tr>
+        <tr><td><code>aqua-bot</code></td><td>Compromised Aqua service account used in Trivy tag spoofing</td></tr>
+        <tr><td><code>iinuwa@bitwarden.com</code></td><td>Real Bitwarden developer impersonated in unsigned CI commit</td></tr>
+        <tr><td><code>krrishdholakia</code></td><td>LiteLLM PyPI maintainer — credentials stolen via Trivy-poisoned CI</td></tr>
+        <tr><td><code>tdtqy-oyaaa-aaaae-af2dq-cai</code></td><td>ICP canister ID — CanisterWorm primary C2</td></tr>
+        <tr><td><code>cjn37-uyaaa-aaaac-qgnva-cai</code></td><td>ICP canister ID — April 21 wave (The Register)</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- MITRE -->
+<section class="section section--dark" id="mitre">
+  <div class="container">
+    <div class="section__hd reveal"><div class="section-chapter">ISSUE #6</div><h2>MITRE ATT&CK®</h2></div>
+    <div class="mitre-grid reveal">
+      <a class="mt" href="https://attack.mitre.org/techniques/T1195/001/" target="_blank"><span class="mt__id">T1195.001</span><span class="mt__n">Supply Chain Compromise: Develop Tools</span><span class="mt__t">Initial Access</span></a>
+      <a class="mt" href="https://attack.mitre.org/techniques/T1059/007/" target="_blank"><span class="mt__id">T1059.007</span><span class="mt__n">JavaScript (postinstall/preinstall hooks)</span><span class="mt__t">Execution</span></a>
+      <a class="mt" href="https://attack.mitre.org/techniques/T1059/006/" target="_blank"><span class="mt__id">T1059.006</span><span class="mt__n">Python (.pth import-time execution)</span><span class="mt__t">Execution</span></a>
+      <a class="mt" href="https://attack.mitre.org/techniques/T1547/013/" target="_blank"><span class="mt__id">T1547.013</span><span class="mt__n">XDG Autostart / systemd User Service</span><span class="mt__t">Persistence</span></a>
+      <a class="mt" href="https://attack.mitre.org/techniques/T1036/" target="_blank"><span class="mt__id">T1036</span><span class="mt__n">Masquerading (pgmon, msbuild.exe, typosquat domains)</span><span class="mt__t">Defense Evasion</span></a>
+      <a class="mt" href="https://attack.mitre.org/techniques/T1027/" target="_blank"><span class="mt__id">T1027</span><span class="mt__n">Obfuscated Files (triple base64, PBKDF2 cipher, gzip)</span><span class="mt__t">Defense Evasion</span></a>
+      <a class="mt" href="https://attack.mitre.org/techniques/T1552/001/" target="_blank"><span class="mt__id">T1552.001</span><span class="mt__n">Credentials in Files (SSH, .npmrc, .env, cloud configs)</span><span class="mt__t">Credential Access</span></a>
+      <a class="mt" href="https://attack.mitre.org/techniques/T1552/005/" target="_blank"><span class="mt__id">T1552.005</span><span class="mt__n">Cloud IMDS API (AWS IMDS + Secrets Manager)</span><span class="mt__t">Credential Access</span></a>
+      <a class="mt" href="https://attack.mitre.org/techniques/T1611/" target="_blank"><span class="mt__id">T1611</span><span class="mt__n">Escape to Host (privileged K8s pod, host FS mount)</span><span class="mt__t">Privilege Escalation</span></a>
+      <a class="mt" href="https://attack.mitre.org/techniques/T1102/" target="_blank"><span class="mt__id">T1102</span><span class="mt__n">Web Service (ICP blockchain as C2 dead-drop)</span><span class="mt__t">C2</span></a>
+      <a class="mt" href="https://attack.mitre.org/techniques/T1041/" target="_blank"><span class="mt__id">T1041</span><span class="mt__n">Exfil Over C2 Channel (AES-256+RSA-4096 tpcp.tar.gz)</span><span class="mt__t">Exfiltration</span></a>
+      <a class="mt" href="https://attack.mitre.org/techniques/T1098/" target="_blank"><span class="mt__id">T1098</span><span class="mt__n">Account Manipulation (Claude Code hook injection)</span><span class="mt__t">Persistence</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section class="section" id="sources">
+  <div class="container">
+    <div class="section__hd reveal"><div class="section-chapter">ISSUE #7</div><h2>Sources</h2></div>
+    <div class="src-grid reveal">
+      <div class="src-group">
+        <h4><span class="dot cyan"></span> Mend.io Series</h4>
+        <ul>
+          <li><a href="https://www.mend.io/blog/canisterworm-the-self-spreading-npm-attack-that-uses-a-decentralized-server-to-stay-alive/" target="_blank">Part 1: CanisterWorm — ICP C2</a></li>
+          <li><a href="https://www.mend.io/blog/teampcp-supply-chain-series-part-2/" target="_blank">Part 2: LiteLLM .pth Persistence</a></li>
+          <li><a href="https://www.mend.io/blog/famous-telnyx-pypi-package-compromised-by-teampcp/" target="_blank">Part 3: Telnyx WAV Steganography</a></li>
+          <li><a href="https://www.mend.io/blog/malicious-xinference-pypi-teampcp-part-4/" target="_blank">Part 4: Xinference AI Attack</a></li>
+          <li><a href="https://www.mend.io/blog/compromised-bitwarden-cli-npm-worm-ai-poisoning/" target="_blank">Part 5: Bitwarden + AI Poisoning</a></li>
+          <li><a href="https://www.mend.io/blog/shai-hulud-sap-cap-supply-chain-attack-claude-code/" target="_blank">Shai-Hulud: SAP cap-js + Claude Code (Apr 29)</a></li>
+        </ul>
+      </div>
+      <div class="src-group">
+        <h4><span class="dot amber"></span> External Research</h4>
+        <ul>
+          <li><a href="https://www.wiz.io/blog/trivy-compromised-teampcp-supply-chain-attack" target="_blank">Wiz — Trivy Compromise</a></li>
+          <li><a href="https://www.wiz.io/blog/tracking-teampcp-investigating-post-compromise-attacks-seen-in-the-wild" target="_blank">Wiz — Post-Compromise Tracking</a></li>
+          <li><a href="https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/" target="_blank">Unit42 — Full Campaign Analysis</a></li>
+          <li><a href="https://www.reversinglabs.com/blog/teampcp-supply-chain-attack-spreads" target="_blank">ReversingLabs — VS Code Extensions</a></li>
+          <li><a href="https://www.aikido.dev/blog/teampcp-deploys-worm-npm-trivy-compromise" target="_blank">Aikido (Charlie Eriksen) — CanisterWorm &amp; Trivy</a></li>
+          <li><a href="https://www.akamai.com/blog/security-research/telnyx-sdk-pypi-2026-teampcp-supply-chain-attacks" target="_blank">Akamai — Telnyx / WAV Stego</a></li>
+          <li><a href="https://ramimac.me/teampcp/" target="_blank">ramimac.me — Incident Timeline</a></li>
+          <li><a href="https://www.rescana.com/post/teampcp-worm-targets-docker-kubernetes-ray-and-redis-via-react2shell-cve-2025-55182-to-build-crim" target="_blank">Rescana — React2Shell Ops</a></li>
+          <li><a href="https://flare.io/learn/resources/blog/teampcp-cloud-native-ransomware" target="_blank">Flare — Cloud Native Ransomware</a></li>
+          <li><a href="https://thehackernews.com/2026/04/sap-npm-packages-compromised-by-mini.html" target="_blank">The Hacker News — SAP Shai-Hulud</a></li>
+          <li><a href="https://www.bleepingcomputer.com/news/security/official-sap-npm-packages-compromised-to-steal-credentials/" target="_blank">BleepingComputer — SAP npm Compromise</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <span>TeamPCP Threat Intelligence Dossier · Updated April 2026</span>
+    <span>
+      <a href="https://x.com/pcpcats" target="_blank">𝕏 @pcpcats</a> ·
+      <a href="https://t.me/teampcp" target="_blank">✈ @teampcp</a> ·
+      <a href="https://t.me/Persy_PCP" target="_blank">✈ @Persy_PCP</a>
+    </span>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

