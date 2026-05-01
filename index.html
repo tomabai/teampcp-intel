@@ -49,7 +49,7 @@
       </h1>
       <p class="hero__sub reveal-up">
         The threat actor <strong>systematically dismantling open-source trust.</strong><br>
-        <em>Eight campaigns. Five ecosystems. One self-spreading worm.</em>
+        <em>Nine campaigns. Six ecosystems. One self-spreading worm.</em>
       </p>
       <div class="hero__aliases reveal-up">
         <span class="alias">PCPcat</span>
@@ -76,7 +76,7 @@
       <div class="hero__stats reveal">
         <div class="stat"><span class="stat__n" data-target="500000">0</span><span class="stat__u">+</span><div class="stat__l">Infected Hosts</div></div>
         <div class="stat"><span class="stat__n" data-target="300">0</span><span class="stat__u">GB</span><div class="stat__l">Data Stolen</div></div>
-        <div class="stat"><span class="stat__n" data-target="8">0</span><span class="stat__u"></span><div class="stat__l">Campaigns</div></div>
+        <div class="stat"><span class="stat__n" data-target="9">0</span><span class="stat__u"></span><div class="stat__l">Campaigns</div></div>
         <div class="stat"><span class="stat__n" data-target="66">0</span><span class="stat__u">+</span><div class="stat__l">npm Packages</div></div>
         <div class="stat"><span class="stat__n" data-target="1180">0</span><span class="stat__u">+</span><div class="stat__l">Telegram Subs</div></div>
       </div>
@@ -150,7 +150,7 @@
     <div class="section__hd reveal">
       <div class="section-chapter">ISSUE #2</div>
       <h2>The Attack Chain</h2>
-      <p class="section__sub">One misconfigured GitHub Action. Seven campaigns. Five ecosystems. One blockchain that can't be shut down.</p>
+      <p class="section__sub">One misconfigured GitHub Action. Eight campaigns. Six ecosystems. One blockchain that can't be shut down.</p>
     </div>
     <div class="graph-wrap reveal">
       <canvas id="attackCanvas" width="1100" height="520"></canvas>
@@ -171,7 +171,7 @@
   <div class="container">
     <div class="section__hd reveal">
       <div class="section-chapter">ISSUE #3</div>
-      <h2>Eight Campaigns</h2>
+      <h2>Nine Campaigns</h2>
     </div>
     <div class="comic-page reveal">
 
@@ -287,6 +287,20 @@
         </div>
       </div>
 
+      <!-- #8 Full-width: Mini Shai-Hulud cross-ecosystem worm -->
+      <div class="cp-panel cp-panel--full">
+        <div class="cp-panel__strip" style="background:linear-gradient(90deg,#4361ee,#b44dff,#ff1a3c,transparent)"></div>
+        <div class="cp-panel__issue">08</div>
+        <div class="cp-panel__inner">
+          <span class="cp-panel__eco eco--py" style="float:right">PyPI · npm · Packagist</span>
+          <div class="cp-panel__date" style="background:linear-gradient(90deg,#4361ee,#b44dff);color:#fff">APRIL 30, 2026 — CROSS-ECOSYSTEM</div>
+          <div class="cp-panel__title">Mini Shai-Hulud — Three Ecosystems, One Day</div>
+          <div class="cp-panel__body">Three ecosystems hit simultaneously on April 30. <strong>Root cause:</strong> an Intercom developer installed <code>pyannote-audio</code>, which pulled in compromised <code>lightning@2.6.2</code> (PyPI) as a transitive dependency — giving attackers a GitHub token. From there: <code>intercom-client@7.0.4</code> (npm, ~360K weekly downloads) trojanized via compromised GitHub account <code>nhur</code> using fake Dependabot commit conventions. Within hours: <code>intercom/intercom-php@5.0.2</code> (Packagist, ~285K installs/month) converted to a Composer plugin executing on <code>post-install-cmd</code>. All three share the same 11.7 MB obfuscated <code>router_runtime.js</code> payload — bootstrapped by Bun v1.3.13 downloaded from GitHub, exfiltrating via <strong>GitHub API</strong> (RSA-encrypted) with fallback to <code>zero.masscan.cloud:443</code>. New targets: crypto wallets (Bitcoin, Monero, Exodus, Ledger), VPN configs (NordVPN, ProtonVPN), Discord/Slack sessions. Repository poisoning injects <code>.claude/router_runtime.js</code> + <code>.claude/settings.json</code> into up to 50 branches per repo, committed as <code>claude@users.noreply.github.com</code>. Payload strings: <em>"A Mini Shai-Hulud has Appeared"</em>, <em>"EveryBoiWeBuildIsAWormyBoi"</em>, <em>"Exiting as russian language detected!"</em> (same anti-attribution geofence as CanisterWorm). Attribution: onion link in GitHub disclosures claimed TeamPCP + LAPSUS$ involvement.</div>
+          <div class="cp-panel__iocs"><span>lightning@2.6.2/2.6.3</span><span>intercom-client@7.0.4</span><span>intercom/intercom-php@5.0.2</span><span>zero.masscan.cloud</span><span>router_runtime.js</span><span>nhur (GitHub)</span><span>claude@github commits</span></div>
+          <div class="cp-panel__credit"><a href="https://socket.dev/blog/lightning-pypi-package-compromised" target="_blank">Socket.dev</a> · <a href="https://www.aikido.dev/blog/pytorch-lightning-pypi-compromise-mini-shai-hulud" target="_blank">Aikido</a> · <a href="https://socket.dev/blog/intercom-s-npm-package-compromised-in-supply-chain-attack" target="_blank">Socket.dev (intercom)</a></div>
+        </div>
+      </div>
+
     </div><!-- /comic-page -->
 
   </div>
@@ -311,6 +325,7 @@
           <li><code>nsa[.]cat</code> — Attacker VPS (ramimac.me)</li>
           <li>Cloudflare Tunnels — GitHub Actions exfil (Unit42)</li>
           <li><code>tpcp-docs</code> — Fallback repo in victim GitHub orgs</li>
+          <li><code>zero[.]masscan[.]cloud:443/v1/telemetry</code> — Mini Shai-Hulud exfil (AES-256-GCM + RSA-OAEP)</li>
         </ul>
       </div>
       <div class="panel reveal">
@@ -365,6 +380,7 @@
         <tr><td><code>api.cloud-aws.adc-e[.]uk</code></td><td>Fake AWS SDK partition redirect</td><td>Bitwarden / cap-js</td></tr>
         <tr><td><code>tdtqy-oyaaa-aaaae-af2dq-cai.raw.icp0[.]io</code></td><td>ICP canister C2 — no takedown</td><td>CanisterWorm</td></tr>
         <tr><td><code>nsa[.]cat</code></td><td>Attacker VPS</td><td>Campaign infra</td></tr>
+        <tr><td><code>zero[.]masscan[.]cloud</code></td><td>Mini Shai-Hulud exfil (:443/v1/telemetry)</td><td>Mini Shai-Hulud</td></tr>
       </tbody></table>
       <button class="copybtn" onclick="copyIOC('domains')">Copy All Domains</button>
     </div>
@@ -405,6 +421,9 @@
         <tr><td><code>@automagik/genie</code></td><td>4.260421.33–39</td><td>npm (Apr 21)</td></tr>
         <tr><td><code>pgserve</code></td><td>1.1.11–1.1.13</td><td>npm (Apr 21)</td></tr>
         <tr><td><code>@fairwords/websocket</code></td><td>1.0.38, 1.0.39</td><td>npm (Apr 21)</td></tr>
+        <tr><td><code>lightning</code></td><td>2.6.2, 2.6.3</td><td>PyPI (Apr 30)</td></tr>
+        <tr><td><code>intercom-client</code></td><td>7.0.4</td><td>npm (Apr 30)</td></tr>
+        <tr><td><code>intercom/intercom-php</code></td><td>5.0.2</td><td>Packagist (Apr 30)</td></tr>
       </tbody></table>
     </div>
     <div class="ipane" id="tab-files">
@@ -424,6 +443,10 @@
         <tr><td><code>tmp.987654321.lock</code></td><td>Anti-double-execution lock (Shai-Hulud)</td></tr>
         <tr><td><code>config.mjs</code></td><td>Bun runtime download logic (Shai-Hulud)</td></tr>
         <tr><td><code>tpcp-docs</code> (GitHub repo)</td><td>Fallback exfil in victim GitHub org</td></tr>
+        <tr><td><code>.claude/router_runtime.js</code></td><td>Mini Shai-Hulud 11.7 MB obfuscated payload (repo-poisoning)</td></tr>
+        <tr><td><code>.claude/settings.json</code> (Mini Shai-Hulud)</td><td>Injected into up to 50 branches per repo</td></tr>
+        <tr><td><code>setup-intercom.sh</code></td><td>Packagist dropper — downloads Bun 1.3.13, runs router_runtime.js</td></tr>
+        <tr><td><code>src/composerPlugin.php</code></td><td>Converts intercom-php into Composer plugin for post-install execution</td></tr>
       </tbody></table>
     </div>
     <div class="ipane" id="tab-certs">
@@ -444,6 +467,7 @@
         <tr><td><code>aqua-bot</code></td><td>Compromised Aqua service account used in Trivy tag spoofing</td></tr>
         <tr><td><code>iinuwa@bitwarden.com</code></td><td>Real Bitwarden developer impersonated in unsigned CI commit</td></tr>
         <tr><td><code>krrishdholakia</code></td><td>LiteLLM PyPI maintainer — credentials stolen via Trivy-poisoned CI</td></tr>
+        <tr><td><code>nhur</code></td><td>Compromised GitHub account — used to publish intercom-client@7.0.4</td></tr>
         <tr><td><code>tdtqy-oyaaa-aaaae-af2dq-cai</code></td><td>ICP canister ID — CanisterWorm primary C2</td></tr>
         <tr><td><code>cjn37-uyaaa-aaaac-qgnva-cai</code></td><td>ICP canister ID — April 21 wave (The Register)</td></tr>
       </tbody></table>
@@ -496,7 +520,11 @@
           <li><a href="https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/" target="_blank">Unit42 — Full Campaign Analysis</a></li>
           <li><a href="https://www.reversinglabs.com/blog/teampcp-supply-chain-attack-spreads" target="_blank">ReversingLabs — VS Code Extensions</a></li>
           <li><a href="https://www.aikido.dev/blog/teampcp-deploys-worm-npm-trivy-compromise" target="_blank">Aikido — CanisterWorm &amp; Trivy</a></li>
+          <li><a href="https://www.aikido.dev/blog/pytorch-lightning-pypi-compromise-mini-shai-hulud" target="_blank">Aikido — PyTorch Lightning / Mini Shai-Hulud</a></li>
           <li><a href="https://www.akamai.com/blog/security-research/telnyx-sdk-pypi-2026-teampcp-supply-chain-attacks" target="_blank">Akamai — Telnyx / WAV Stego</a></li>
+          <li><a href="https://socket.dev/blog/lightning-pypi-package-compromised" target="_blank">Socket.dev — lightning PyPI compromise</a></li>
+          <li><a href="https://socket.dev/blog/intercom-s-npm-package-compromised-in-supply-chain-attack" target="_blank">Socket.dev — intercom-client npm compromise</a></li>
+          <li><a href="https://socket.dev/blog/mini-shai-hulud-packagist-malicious-intercom-php-package-compromise" target="_blank">Socket.dev — intercom/intercom-php Packagist</a></li>
           <li><a href="https://ramimac.me/teampcp/" target="_blank">ramimac.me — Incident Timeline</a></li>
           <li><a href="https://www.rescana.com/post/teampcp-worm-targets-docker-kubernetes-ray-and-redis-via-react2shell-cve-2025-55182-to-build-crim" target="_blank">Rescana — React2Shell Ops</a></li>
           <li><a href="https://flare.io/learn/resources/blog/teampcp-cloud-native-ransomware" target="_blank">Flare — Cloud Native Ransomware</a></li>
