@@ -104,6 +104,9 @@ const NODES = [
   { id:'devB',  label:'SAP Dev Machine',sub:'Claude Code active\ninfected host', x:800, y:450, c:C.amber  },
   { id:'capjs', label:'SAP cap-js',     sub:'4 packages · Apr 29\nClaude Code pivot', x:980, y:450, c:C.blue },
   { id:'icp',   label:'ICP Canister',   sub:'tdtqy-oyaaa-...\nNo takedown',      x:820, y:90,  c:C.green  },
+  { id:'light', label:'lightning',      sub:'PyPI · 2.6.2/2.6.3\nApr 30',        x:1080, y:120, c:C.blue   },
+  { id:'intc',  label:'intercom-client',sub:'npm · 7.0.4\nGitHub token',         x:1240, y:245, c:C.blue   },
+  { id:'intphp',label:'intercom-php',   sub:'Packagist · 5.0.2\nComposer plugin',x:1240, y:400, c:C.cyan   },
 ];
 const NM = Object.fromEntries(NODES.map(n => [n.id, n]));
 
@@ -121,6 +124,9 @@ const EDGES = [
   { f:'bwci',   t:'bw',     label:'stolen OIDC token'                   },
   { f:'bw',     t:'devB',   label:'infects SAP dev'                     },
   { f:'devB',   t:'capjs',  label:'claude@github\nno token needed'      },
+  { f:'capjs',  t:'light',  label:'same actor\nApr 30',                  dash:true  },
+  { f:'light',  t:'intc',   label:'GitHub token stolen'                             },
+  { f:'intc',   t:'intphp', label:'worm propagation'                                },
 ];
 
 // Particles
@@ -263,6 +269,7 @@ function render() {
   drawPhaseLabel('PHASE 1\nInitial Access', 230, C.red);
   drawPhaseLabel('PHASE 2\nHarvest', 420, C.amber);
   drawPhaseLabel('PHASE 3\nDeploy', 700, C.blue);
+  drawPhaseLabel('PHASE 4\nCross-Ecosystem', 1180, C.purple);
   EDGES.forEach(drawEdge);
   PARTICLES.forEach(drawParticle);
   NODES.forEach(drawNode);
