@@ -213,7 +213,7 @@
           <div class="cp-panel__title">CanisterWorm</div>
           <div class="cp-panel__body"><strong>First npm worm with ICP blockchain C2.</strong> Canister <code>tdtqy-oyaaa-aaaae-af2dq-cai</code> serves rotating payloads — no takedown point. Kill-switch returns YouTube URL. 66+ packages infected: @emilgroup (28), @opengov (16), @teale.io, @airtm, @pypestream. April 21 second wave: @automagik/genie, pgserve, @fairwords/websocket — second canister ID. <code>pgmon</code> systemd backdoor disguised as PostgreSQL monitor; 5-min sandbox delay, 50-min C2 poll.</div>
           <div class="cp-panel__iocs"><span>tdtqy-oyaaa-aaaae-af2dq-cai</span><span>pgmon.service</span></div>
-          <div class="cp-panel__credit"><a href="https://www.mend.io/blog/canisterworm-the-self-spreading-npm-attack-that-uses-a-decentralized-server-to-stay-alive/" target="_blank">Mend.io</a> · <a href="https://www.aikido.dev/blog/teampcp-deploys-worm-npm-trivy-compromise" target="_blank">Aikido</a> · The Register</div>
+          <div class="cp-panel__credit"><a href="https://www.mend.io/blog/canisterworm-the-self-spreading-npm-attack-that-uses-a-decentralized-server-to-stay-alive/" target="_blank">Mend.io</a> · <a href="https://www.aikido.dev/blog/teampcp-deploys-worm-npm-trivy-compromise" target="_blank">Aikido</a></div>
         </div>
       </div>
 
@@ -227,7 +227,7 @@
           <div class="cp-panel__title">LiteLLM Poisoned</div>
           <div class="cp-panel__body">Trivy-poisoned CI handed TeamPCP <code>PYPI_PUBLISH_PASSWORD</code> for <code>krrishdholakia</code>. v1.82.7 + v1.82.8 (~95M monthly downloads). v1.82.8 escalates to <strong>.pth file</strong> in site-packages — fires on every Python startup even after uninstall. AES-256-CBC + RSA-2048. Kubernetes cluster escape via privileged pod (<code>hostPID:true</code>). Also: KICS (35 tags), Checkmarx AST v2.3.28.</div>
           <div class="cp-panel__iocs"><span>models.litellm.cloud</span><span>checkmarx.zone</span><span>litellm_init.pth</span></div>
-          <div class="cp-panel__credit"><a href="https://www.mend.io/blog/teampcp-supply-chain-series-part-2/" target="_blank">Mend.io</a> · <a href="https://www.reversinglabs.com/blog/teampcp-supply-chain-attack-spreads" target="_blank">ReversingLabs</a> · Datadog</div>
+          <div class="cp-panel__credit"><a href="https://www.mend.io/blog/teampcp-supply-chain-series-part-2/" target="_blank">Mend.io</a> · <a href="https://www.reversinglabs.com/blog/teampcp-supply-chain-attack-spreads" target="_blank">ReversingLabs</a> · <a href="https://securitylabs.datadoghq.com/articles/litellm-compromised-pypi-teampcp-supply-chain-campaign/" target="_blank">Datadog</a></div>
         </div>
       </div>
 
@@ -255,7 +255,7 @@
           <div class="cp-panel__title">Xinference — &quot;That Wasn't Us&quot;</div>
           <div class="cp-panel__body">xinference 2.6.0–2.6.2 targeting AI inference infrastructure. Fire-and-forget: no persistence, no encryption — data gzipped as <code>love.tar.gz</code>, POSTed raw with custom header <code>X-QT-SR: 14</code> to <code>whereisitat.lucyatemysuperbox.space</code>. Full AWS Sig4 implementation queries Secrets Manager + SSM Parameter Store directly. Exhaustive crypto wallet sweep including Solana validator keypairs. First decoded line of payload: <code># hacked by teampcp</code>. <strong>Plot twist: @pcpcats publicly denied responsibility on Twitter</strong> — "if you're this copycat using our team name, DM me." First time a TeamPCP-attributed payload was publicly disputed by the group itself. Possible copycat, false flag, or deniability operation. KICS Docker images also compromised the same day (Socket.dev).</div>
           <div class="cp-panel__iocs"><span>whereisitat.lucyatemysuperbox.space</span><span>X-QT-SR: 14</span><span>love.tar.gz</span><span># hacked by teampcp</span><span>@pcpcats denial</span></div>
-          <div class="cp-panel__credit"><a href="https://www.mend.io/blog/malicious-xinference-pypi-teampcp-part-4/" target="_blank">Mend.io</a> · GitGuardian · StepSecurity</div>
+          <div class="cp-panel__credit"><a href="https://www.mend.io/blog/malicious-xinference-pypi-teampcp-part-4/" target="_blank">Mend.io</a> · <a href="https://blog.gitguardian.com/three-supply-chain-campaigns-hit-npm-pypi-and-docker-hub-in-48-hours/" target="_blank">GitGuardian</a></div>
         </div>
       </div>
 
@@ -269,7 +269,7 @@
           <div class="cp-panel__title">@bitwarden/cli — The CI Chain</div>
           <div class="cp-panel__body">Chain: KICS Docker → Bitwarden <code>pull_request_target</code> (<code>id-token: write</code>) → stolen GitHub OIDC → unsigned commit impersonating <code>iinuwa@bitwarden.com</code> → double-base64 npm token leaked in CI logs → <code>@bitwarden/cli@2026.4.0</code> published 4 minutes later. C2 typosquat: <code>audit.checkmarx.cx</code> (named after the entry tool, vs real checkmarx.com). Test account <code>helloworm00@proton.me</code> validated <code>beautifulcastle</code> GitHub dead-drop channel 2 days prior. 9.7MB obfuscator.io payload: 43,436-entry string table, PBKDF2 S-box cipher for 58 sensitive strings, 6 gzip blobs. New capability: <strong>AI assistant poisoning</strong> writes invisible payload to shell configs that surface in AI context windows.</div>
           <div class="cp-panel__iocs"><span>audit.checkmarx.cx</span><span>helloworm00@proton.me</span><span>beautifulcastle C2</span><span>api.cloud-aws.adc-e.uk</span></div>
-          <div class="cp-panel__credit"><a href="https://www.mend.io/blog/compromised-bitwarden-cli-npm-worm-ai-poisoning/" target="_blank">Mend.io</a> · JFrog · <a href="https://socket.dev/blog/namastex-npm-packages-compromised-canisterworm" target="_blank">Socket.dev</a></div>
+          <div class="cp-panel__credit"><a href="https://www.mend.io/blog/compromised-bitwarden-cli-npm-worm-ai-poisoning/" target="_blank">Mend.io</a> · <a href="https://research.jfrog.com/post/bitwarden-cli-hijack/" target="_blank">JFrog</a> · <a href="https://socket.dev/blog/namastex-npm-packages-compromised-canisterworm" target="_blank">Socket.dev</a></div>
         </div>
       </div>
 
