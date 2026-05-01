@@ -1329,7 +1329,7 @@ document.getElementById('term-input').addEventListener('keydown', e => {
 const LORE = [
   {
     act: 'ACT 1 // RESOLVED', title: 'CANISTERWORM: ICP BLOCKCHAIN C2', color: '#00ff6e',
-    body: `<b>What happened:</b> On March 20, 2026, TeamPCP deployed a self-propagating worm across npm. The vector: a malicious <code>checkmarx</code> package with a <code>postinstall: "node deploy.js"</code> hook that ran on every <code>npm install</code>.<br><br>
+    body: `<b>What happened:</b> On March 20, 2026, TeamPCP deployed a self-propagating worm across npm. The vector: a trojanized <code>@opengov/capital-style</code> package with a <code>postinstall: "node deploy.js"</code> hook that ran on every <code>npm install</code>.<br><br>
 <b>The worm loop:</b> deploy.js read <code>~/.npmrc</code> tokens → authenticated to npm → republished a malicious version under every package the victim owned → each new install spread further. 47 packages in under 60 seconds.<br><br>
 <b>C2:</b> <span class="ioc">tdtqy-oyaaa-aaaae-af2dq-cai.raw.icp0.io</span> — an Internet Computer Protocol blockchain canister. Decentralised, censorship-resistant, near-impossible to take down.<br><br>
 <b>Persistence:</b> <code>pgmon.service</code> — disguised as a PostgreSQL process monitor. Fired on every system boot.<br><br>
