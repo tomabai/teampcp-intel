@@ -51,7 +51,7 @@
       </h1>
       <p class="hero__sub reveal-up">
         The threat actor <strong>systematically dismantling open-source trust.</strong><br>
-        <em>Nine campaigns. Six ecosystems. One self-spreading worm.</em>
+        <em>Eleven campaigns. Seven ecosystems. One self-spreading worm.</em>
       </p>
       <div class="hero__aliases reveal-up">
         <span class="alias">PCPcat</span>
@@ -78,7 +78,7 @@
       <div class="hero__stats reveal">
         <div class="stat"><span class="stat__n" data-target="500000">0</span><span class="stat__u">+</span><div class="stat__l">Infected Hosts</div></div>
         <div class="stat"><span class="stat__n" data-target="300">0</span><span class="stat__u">GB</span><div class="stat__l">Data Stolen</div></div>
-        <div class="stat"><span class="stat__n" data-target="9">0</span><span class="stat__u"></span><div class="stat__l">Campaigns</div></div>
+        <div class="stat"><span class="stat__n" data-target="11">0</span><span class="stat__u"></span><div class="stat__l">Campaigns</div></div>
         <div class="stat"><span class="stat__n" data-target="66">0</span><span class="stat__u">+</span><div class="stat__l">npm Packages</div></div>
         <div class="stat"><span class="stat__n" data-target="1180">0</span><span class="stat__u">+</span><div class="stat__l">Telegram Subs</div></div>
       </div>
@@ -143,6 +143,15 @@
         <a class="bubble__src" href="https://ramimac.me/teampcp/" target="_blank">ramimac.me →</a>
       </div>
     </div>
+    <div class="bubble bubble--amber reveal">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div>
+          <div class="bubble__label">⚠ PCPJACK — Rival Worm Evicts TeamPCP (May 7, 2026)</div>
+          <p>A competing cloud worm emerged May 7, 2026 that <strong>actively removes TeamPCP artifacts</strong> from compromised hosts before stealing the same credentials for its own gain. SentinelOne attributes PCPJack to a probable former TeamPCP affiliate — exfil data tracks a <code>"PCP replaced"</code> success metric. Exploits CVE-2025-55182 (React2Shell), CVE-2025-29927 (Next.js), CVE-2026-1357, CVE-2025-9501, CVE-2025-48703 — spreads worm-like via Docker, Kubernetes, Redis, MongoDB, RayML. Exfiltrates X25519/ChaCha20-Poly1305-encrypted credentials to Telegram in 2800-byte chunks. C2 typosquat: <code>cdn.cloudfront-js[.]com</code>. Key artifacts: <code>bootstrap.sh</code> → <code>monitor.py</code> + <code>harvest.jsonl</code> in <code>/var/lib/.spm/</code>. No cryptomining — purely credential theft and fraud.</p>
+        </div>
+        <a class="bubble__src" href="https://www.sentinelone.com/labs/cloud-worm-evicts-teampcp-and-steals-credentials-at-scale/" target="_blank">SentinelOne →</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -173,7 +182,7 @@
   <div class="container">
     <div class="section__hd reveal">
       <div class="section-chapter">ISSUE #3</div>
-      <h2>Nine Campaigns</h2>
+      <h2>Eleven Campaigns</h2>
     </div>
     <div class="comic-page reveal">
 
@@ -303,6 +312,40 @@
         </div>
       </div>
 
+      <!-- #9 Wide: Checkmarx Jenkins AST Plugin -->
+      <div class="cp-panel cp-panel--wide">
+        <div class="cp-panel__strip" style="background:linear-gradient(90deg,#ff4800,#ff1a3c,transparent)"></div>
+        <div class="cp-panel__issue">09</div>
+        <div class="cp-panel__inner">
+          <span class="cp-panel__eco eco--gh" style="float:right">Jenkins Marketplace</span>
+          <div class="cp-panel__date" style="background:var(--red);color:#fff">MAY 9, 2026 · 01:25 UTC</div>
+          <div class="cp-panel__title">Checkmarx Jenkins — "Fails to Rotate Again"</div>
+          <div class="cp-panel__body">Third hit on Checkmarx in as many months — after KICS Docker images, two VS Code extensions, and the GitHub Actions workflow. TeamPCP gained unauthorized access to the Jenkins AST plugin's GitHub repository, renamed it <strong>"Checkmarx-Fully-Hacked-by-TeamPCP-and-Their-Customers-Should-Cancel-Now"</strong>, and published malicious version <code>2026.5.09</code> to the Jenkins Marketplace. Compromise window: May 9 01:25 UTC — May 10 08:47 UTC. Rogue plugin silently harvests all env vars visible to the Jenkins runner: GitHub tokens, AWS/GCP/Azure credentials, Kubernetes configs, SSH keys, API keys. C2 reuses <code>checkmarx[.]zone</code> — same infrastructure deployed against LiteLLM and KICS months prior with no rotation by defenders. IOC repos on the compromised <code>cx-plugins-releases</code> account — <code>kralizec-navigator-709</code>, <code>mentat-navigator-124</code> — carry the familiar Dune-universe watermark: <em>"A Mini Shai-Hulud has Appeared."</em> Message left: <em>"Checkmarx fails to rotate secrets again. With love – TeamPCP."</em> Safe version: <code>2.0.13-848.v76e89de8a_053</code> (post-incident release). CVE-2026-33634, CVSS 9.4.</div>
+          <div class="cp-panel__iocs"><span>checkmarx-ast-scanner@2026.5.09</span><span>checkmarx[.]zone</span><span>kralizec-navigator-709</span><span>mentat-navigator-124</span><span>cx-plugins-releases (GitHub)</span></div>
+          <div class="cp-panel__credit"><a href="https://thehackernews.com/2026/05/teampcp-compromises-checkmarx-jenkins.html" target="_blank">The Hacker News</a> · <a href="https://www.bleepingcomputer.com/news/security/official-checkmarx-jenkins-package-compromised-with-infostealer/" target="_blank">BleepingComputer</a> · <a href="https://www.theregister.com/devops/2026/05/11/checkmarx-tackles-another-teampcp-intrusion-as-jenkins-plugin-sabotaged/5237780" target="_blank">The Register</a> · <a href="https://socradar.io/blog/checkmarx-jenkins-plugin-teampcp-backdoor/" target="_blank">SOCRadar</a></div>
+        </div>
+      </div>
+
+      <!-- #10 Full-width: Mini Shai-Hulud Returns — TanStack / Mistral / UiPath -->
+      <div class="cp-panel cp-panel--full">
+        <div class="cp-panel__strip" style="background:linear-gradient(90deg,#ffd60a,#ff9800,#4361ee,transparent)"></div>
+        <div class="cp-panel__issue">10</div>
+        <div class="cp-panel__inner">
+          <span class="cp-panel__eco eco--npm" style="float:right">npm · PyPI</span>
+          <div class="cp-panel__date" style="background:linear-gradient(90deg,#ffd60a,#4361ee);color:#000">MAY 11–12, 2026 · 172 PACKAGES</div>
+          <div class="cp-panel__title">Mini Shai-Hulud Returns — TanStack, Mistral, UiPath</div>
+          <div class="cp-panel__body"><strong>Largest wave yet: 172 unique packages · 403 malicious versions.</strong> May 11 10:49 UTC: GitHub user <code>zblgg</code> opens malicious draft PR #7378 against TanStack router and triggers four Bundle Size workflow runs via force-pushes, injecting a <strong>1.1 GB poisoned pnpm store cache</strong> via <code>actions/cache@v5</code> (runner-internal token — bypasses workflow-level secret protections). When the legitimate release workflow fires at ~19:20 UTC, the poisoned cache restores and attacker code runs inside the trusted context, scanning <code>/proc/&lt;pid&gt;/mem</code> for <code>{"value":"...","isSecret":true}</code> patterns to extract GitHub Actions OIDC token with <code>id-token: write</code> scope. Two publication batches: 19:20 and 19:26 UTC.
+<br><br>
+<strong>SLSA shattered:</strong> malicious packages carry <em>valid SLSA Build Level 3 provenance attestations</em> — the first documented npm worm producing validly-attested malicious packages. Published under <code>GitHub Actions &lt;npm-oidc-no-reply@github.com&gt;</code>, indistinguishable from legitimate releases in npm metadata.
+<br><br>
+<strong>Payload:</strong> <code>router_init.js</code> (~2.3 MB, obfuscator.io, 11,516-entry RC4+base64 string table) bootstrapped via <code>optionalDependencies</code> → orphan git commit → <code>"prepare": "bun run tanstack_runner.js &amp;&amp; exit 1"</code>. Mistral npm: <code>preinstall</code> → <code>setup.mjs</code> → Bun v1.3.13 fetch. Mistral PyPI: cleartext backdoor appended to <code>__init__.py</code>, curl-downloads second stage from <code>83[.]142[.]209[.]194</code>, TLS verification skipped. 2,289 obfuscated credential targets: AWS IMDS, GitHub tokens, npm tokens, Kubernetes service accounts, HashiCorp Vault, Sigstore OIDC, Slack, Stripe, Claude Code (<code>~/.claude/settings.json</code>), Kiro configs.
+<br><br>
+<strong>Dead man's switch:</strong> <code>gh-token-monitor.sh</code> polls <code>api.github.com/user</code> every 60 seconds — executes <code>rm -rf ~/.</code> the moment the stolen token is revoked (HTTP 40x). 24-hour TTL. <strong>Exfil via Session/Oxen</strong> E2E-encrypted messenger file upload (<code>filev2.getsession[.]org</code>, seeded via <code>seed1-3.getsession[.]org</code>) — no attacker-controlled C2 server to block or sinkhole. Affected namespaces: <em>@tanstack</em> (42), <em>@uipath</em> (66), <em>@squawk</em> (22), <em>@tallyui</em> (10), <em>@mistralai</em> (3), plus @opensearch-project, @draftlab, @mesadev, cross-stitch, ts-dna, wot-api, safe-action.</div>
+          <div class="cp-panel__iocs"><span>zblgg (GitHub)</span><span>filev2.getsession[.]org</span><span>83[.]142[.]209[.]194</span><span>router_init.js</span><span>gh-token-monitor.sh</span><span>SLSA-attested malicious pkgs</span></div>
+          <div class="cp-panel__credit"><a href="https://www.mend.io/blog/mini-shai-hulud-is-back-172-npm-and-pypi-packages-compromised-in-latest-wave/" target="_blank">Mend.io</a> · <a href="https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised" target="_blank">Aikido</a> · <a href="https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised" target="_blank">Wiz</a> · <a href="https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem" target="_blank">StepSecurity</a> · <a href="https://snyk.io/blog/tanstack-npm-packages-compromised/" target="_blank">Snyk</a></div>
+        </div>
+      </div>
+
     </div><!-- /comic-page -->
 
   </div>
@@ -383,6 +426,11 @@
         <tr><td><code>tdtqy-oyaaa-aaaae-af2dq-cai.raw.icp0[.]io</code></td><td>ICP canister C2 — no takedown</td><td>CanisterWorm</td></tr>
         <tr><td><code>nsa[.]cat</code></td><td>Attacker VPS</td><td>Campaign infra</td></tr>
         <tr><td><code>zero[.]masscan[.]cloud</code></td><td>Mini Shai-Hulud exfil (:443/v1/telemetry)</td><td>Mini Shai-Hulud</td></tr>
+        <tr><td><code>cdn.cloudfront-js[.]com</code></td><td>PCPJack C2 (typosquat CloudFront)</td><td>PCPJack</td></tr>
+        <tr><td><code>filev2[.]getsession[.]org</code></td><td>Mini Shai-Hulud exfil — Session/Oxen E2E encrypted, no C2 to sinkhole</td><td>Mini Shai-Hulud (May)</td></tr>
+        <tr><td><code>seed1[.]getsession[.]org</code></td><td>Session seed node (exfil routing)</td><td>Mini Shai-Hulud (May)</td></tr>
+        <tr><td><code>seed2[.]getsession[.]org</code></td><td>Session seed node (exfil routing)</td><td>Mini Shai-Hulud (May)</td></tr>
+        <tr><td><code>seed3[.]getsession[.]org</code></td><td>Session seed node (exfil routing)</td><td>Mini Shai-Hulud (May)</td></tr>
       </tbody></table>
       <button class="copybtn" onclick="copyIOC('domains')">Copy All Domains</button>
     </div>
@@ -399,6 +447,7 @@
         <tr><td><code>170.62.100.245</code></td><td>Mullvad VPN exit</td><td>Wiz</td></tr>
         <tr><td><code>193.32.126.157</code></td><td>Mullvad VPN exit</td><td>Wiz</td></tr>
         <tr><td><code>105.245.181.120</code></td><td>Vodacom callback proxy</td><td>Wiz</td></tr>
+        <tr><td><code>83.142.209.194</code></td><td>PyPI payload host — Mistral <code>transformers.pyz</code> second stage</td><td>Mend.io (May)</td></tr>
       </tbody></table>
       <button class="copybtn" onclick="copyIOC('ips')">Copy All IPs</button>
     </div>
@@ -426,6 +475,13 @@
         <tr><td><code>lightning</code></td><td>2.6.2, 2.6.3</td><td>PyPI (Apr 30)</td></tr>
         <tr><td><code>intercom-client</code></td><td>7.0.4</td><td>npm (Apr 30)</td></tr>
         <tr><td><code>intercom/intercom-php</code></td><td>5.0.2</td><td>Packagist (Apr 30)</td></tr>
+        <tr><td><code>checkmarx-ast-scanner</code> (Jenkins)</td><td>2026.5.09</td><td>Jenkins Marketplace (May 9)</td></tr>
+        <tr><td><code>@tanstack/react-router</code> + 41 @tanstack/* pkgs</td><td>1.169.5, 1.169.8 + others</td><td>npm (May 11)</td></tr>
+        <tr><td><code>@uipath/*</code> (66 pkgs)</td><td>Various malicious versions</td><td>npm (May 11)</td></tr>
+        <tr><td><code>@squawk/*</code> (22 pkgs)</td><td>Various malicious versions</td><td>npm (May 11)</td></tr>
+        <tr><td><code>@tallyui/*</code> (10 pkgs)</td><td>Various malicious versions</td><td>npm (May 11)</td></tr>
+        <tr><td><code>@mistralai/mistralai</code></td><td>2.2.2–2.2.4</td><td>npm + PyPI (May 11)</td></tr>
+        <tr><td><code>cross-stitch, ts-dna, wot-api, safe-action</code></td><td>Worm-infected</td><td>npm (May 11)</td></tr>
       </tbody></table>
     </div>
     <div class="ipane" id="tab-files">
@@ -449,6 +505,10 @@
         <tr><td><code>.claude/settings.json</code> (Mini Shai-Hulud)</td><td>Injected into up to 50 branches per repo</td></tr>
         <tr><td><code>setup-intercom.sh</code></td><td>Packagist dropper — downloads Bun 1.3.13, runs router_runtime.js</td></tr>
         <tr><td><code>src/composerPlugin.php</code></td><td>Converts intercom-php into Composer plugin for post-install execution</td></tr>
+        <tr><td><code>router_init.js</code></td><td>Mini Shai-Hulud (May) 2.3 MB payload — RC4+base64, 11,516-entry string table (SHA-256: ab4fcadaec49c03278063dd269ea5eef82d24f2124a8e15d7b90f2fa8601266c)</td></tr>
+        <tr><td><code>tanstack_runner.js</code></td><td>Bun entry-point runner (TanStack wave)</td></tr>
+        <tr><td><code>~/.local/bin/gh-token-monitor.sh</code></td><td>Dead man's switch — polls token every 60s, runs <code>rm -rf ~/.</code> on revocation</td></tr>
+        <tr><td><code>~/.config/gh-token-monitor/</code></td><td>Dead man's switch working directory</td></tr>
       </tbody></table>
     </div>
     <div class="ipane" id="tab-certs">
@@ -472,6 +532,9 @@
         <tr><td><code>nhur</code></td><td>Compromised GitHub account — used to publish intercom-client@7.0.4</td></tr>
         <tr><td><code>tdtqy-oyaaa-aaaae-af2dq-cai</code></td><td>ICP canister ID — CanisterWorm primary C2</td></tr>
         <tr><td><code>cjn37-uyaaa-aaaac-qgnva-cai</code></td><td>ICP canister ID — April 21 wave (The Register)</td></tr>
+        <tr><td><code>cx-plugins-releases</code></td><td>Compromised GitHub account — Jenkins AST plugin published from here (May 9)</td></tr>
+        <tr><td><code>zblgg</code> (GitHub, ID 127806521)</td><td>Opened malicious PR #7378 against TanStack router — May 11 10:49 UTC</td></tr>
+        <tr><td><code>voicproducoes</code> (GitHub, ID 269549300)</td><td>Secondary attacker account — TanStack wave</td></tr>
       </tbody></table>
     </div>
   </div>
@@ -512,6 +575,23 @@
           <li><a href="https://www.mend.io/blog/malicious-xinference-pypi-teampcp-part-4/" target="_blank">Part 4: Xinference AI Attack</a></li>
           <li><a href="https://www.mend.io/blog/compromised-bitwarden-cli-npm-worm-ai-poisoning/" target="_blank">Part 5: Bitwarden + AI Poisoning</a></li>
           <li><a href="https://www.mend.io/blog/shai-hulud-sap-cap-supply-chain-attack-claude-code/" target="_blank">Shai-Hulud: SAP cap-js + Claude Code (Apr 29)</a></li>
+          <li><a href="https://www.mend.io/blog/mini-shai-hulud-is-back-172-npm-and-pypi-packages-compromised-in-latest-wave/" target="_blank">Mini Shai-Hulud Returns: 172 Packages (May 12)</a></li>
+        </ul>
+      </div>
+      <div class="src-group">
+        <h4><span class="dot red"></span> May 2026 — Jenkins &amp; PCPJack</h4>
+        <ul>
+          <li><a href="https://thehackernews.com/2026/05/teampcp-compromises-checkmarx-jenkins.html" target="_blank">The Hacker News — Checkmarx Jenkins AST Plugin</a></li>
+          <li><a href="https://www.bleepingcomputer.com/news/security/official-checkmarx-jenkins-package-compromised-with-infostealer/" target="_blank">BleepingComputer — Jenkins Plugin Infostealer</a></li>
+          <li><a href="https://www.theregister.com/devops/2026/05/11/checkmarx-tackles-another-teampcp-intrusion-as-jenkins-plugin-sabotaged/5237780" target="_blank">The Register — Checkmarx Third Intrusion</a></li>
+          <li><a href="https://socradar.io/blog/checkmarx-jenkins-plugin-teampcp-backdoor/" target="_blank">SOCRadar — Jenkins Backdoor Analysis</a></li>
+          <li><a href="https://www.sentinelone.com/labs/cloud-worm-evicts-teampcp-and-steals-credentials-at-scale/" target="_blank">SentinelOne — PCPJack Cloud Worm</a></li>
+          <li><a href="https://www.securityweek.com/pcpjack-worm-removes-teampcp-infections-steals-credentials/" target="_blank">SecurityWeek — PCPJack Removes TeamPCP</a></li>
+          <li><a href="https://www.bleepingcomputer.com/news/security/new-pcpjack-worm-steals-credentials-cleans-teampcp-infections/" target="_blank">BleepingComputer — PCPJack Worm</a></li>
+          <li><a href="https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised" target="_blank">Aikido — Mini Shai-Hulud TanStack</a></li>
+          <li><a href="https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised" target="_blank">Wiz — Mini Shai-Hulud TanStack</a></li>
+          <li><a href="https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem" target="_blank">StepSecurity — Mini Shai-Hulud TanStack</a></li>
+          <li><a href="https://snyk.io/blog/tanstack-npm-packages-compromised/" target="_blank">Snyk — TanStack Compromise</a></li>
         </ul>
       </div>
       <div class="src-group">
